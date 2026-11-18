@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skillwise</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#EDEFF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F121A" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDEFF3;--surf:#FFFFFF;--ink:#171B26;--mut:#5B6577;--line:#DCE0E8;--track:#E2E6ED;--bd:#AEB6C6;color-scheme:light;
+--disp:"Bricolage Grotesque",ui-rounded,system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F121A;--surf:#171B26;--ink:#ECEFF5;--mut:#9AA4B8;--line:#2A3040;--track:#262C3A;--bd:#4A5268;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F121A;--surf:#171B26;--ink:#ECEFF5;--mut:#9AA4B8;--line:#2A3040;--track:#262C3A;--bd:#4A5268;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.5 Figtree,system-ui,sans-serif;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--c,var(--ink));outline-offset:2px}
+main{max-width:1040px;margin:0 auto;padding:28px 20px 140px}
+h1,h2{font-family:var(--disp);margin:0;font-weight:600}
+.head h1{font-size:24px;letter-spacing:-.01em}
+.head p{margin:2px 0 18px;color:var(--mut);font-size:13px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.card{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:12px}
+.card:hover{border-color:var(--c)}
+.cm{flex:1;min-width:0}
+.cm b{display:block;font:600 14px/1.3 var(--disp);overflow-wrap:anywhere}
+.dsc{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;color:var(--mut);font-size:12px;margin-top:1px}
+.meta{display:flex;justify-content:space-between;gap:8px;color:var(--mut);font-size:12px;margin:6px 0}
+.bar{height:4px;border-radius:99px;background:var(--track);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c);border-radius:99px;transition:width .3s}
+.tile{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--surf));flex:none}
+.tile.big{width:44px;height:44px}
+.empty{text-align:center;padding:56px 20px;color:var(--mut)}
+.empty b{display:block;color:var(--ink);font:600 16px var(--disp);margin-bottom:4px}
+.empty p{margin:0 auto 16px;max-width:34ch}
+.primary,.ghost{border-radius:10px;padding:9px 16px;font-weight:500;border:1px solid transparent}
+.primary{background:var(--ink);color:var(--bg)}
+.ghost{background:transparent;border-color:var(--line)}
+#fab{position:fixed;right:16px;bottom:calc(64px + env(safe-area-inset-bottom,0px));width:44px;height:44px;padding:0;border-radius:50%;display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.2);z-index:20}
+#fab[hidden]{display:none}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--surf);border-top:1px solid var(--line);padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;justify-content:center}
+nav a{flex:1;max-width:200px;text-align:center;padding:7px;border-radius:9px;color:var(--mut);text-decoration:none;font-weight:500;font-size:13px}
+nav a span{opacity:.8;margin-left:4px}
+nav a.on{background:var(--ink);color:var(--bg)}
+.corner{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));z-index:20}
+.corner.l{left:16px}.corner.r{right:16px}
+.round{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surf);display:grid;place-items:center;padding:0}
+.dt{display:grid;gap:24px;padding-top:30px}
+.hero{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:18px}
+.who{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.who h1{font-size:20px;line-height:1.15;letter-spacing:-.01em;overflow-wrap:anywhere}
+.desc{display:block;width:100%;border:0;background:transparent;resize:none;overflow:hidden;color:var(--mut);font:inherit;padding:0;margin:0 0 16px;outline:none;min-height:21px}
+.desc:focus{color:var(--ink)}
+.nums{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:8px}
+.pct{font:600 30px/1 var(--disp);letter-spacing:-.02em}
+.pct small{font-size:14px;margin-left:1px}
+.nums span{color:var(--mut);text-align:right;font-size:12px}
+.hero .bar{height:6px}
+h2{font-size:15px;margin-bottom:10px}
+.add{display:flex;gap:8px;margin-bottom:6px}
+.add input{flex:1;min-width:0;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit}
+.add input:focus{outline:none;border-color:var(--c)}
+.add .ib{width:38px;height:38px;border:1px solid var(--line);background:var(--surf);color:var(--ink);border-radius:10px}
+.tree{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:center;gap:10px;padding:8px 2px}
+.tree .tree{margin:0 0 4px 9px;padding-left:15px;border-left:1px solid var(--line)}
+.cnt{font-size:12px;color:var(--mut)}
+.acts{display:flex;gap:2px;align-items:center}
+.sub{opacity:0;transition:opacity .15s}
+.row:hover .sub,.row:focus-within .sub{opacity:1}
+@media (hover:none){.sub{opacity:.7}}
+.addrow{padding:0 0 6px 30px}
+.addrow input{width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit;font-size:13px}
+.addrow input:focus{outline:none;border-color:var(--c)}
+.cb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd);background:transparent;flex:none;display:grid;place-items:center;color:#fff;padding:0;transition:background .15s}
+.cb.on{background:var(--c);border-color:var(--c)}
+.txt{flex:1;min-width:0;overflow-wrap:anywhere}
+.done .txt{color:var(--mut);text-decoration:line-through}
+.ib{width:28px;height:28px;border-radius:8px;border:0;background:none;color:var(--mut);display:grid;place-items:center;padding:0}
+.ib:hover{background:var(--track);color:var(--ink)}
+.note{color:var(--mut);margin:6px 0 0}
+#toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:10px;padding:9px 14px;display:flex;gap:14px;align-items:center;max-width:calc(100% - 32px);transition:.25s;z-index:60;font-size:13px}
+#toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#toast button{background:none;border:0;color:inherit;font-weight:600;text-decoration:underline;padding:0}
+.scrim{position:fixed;inset:0;background:rgba(10,12,18,.45);z-index:40}
+.sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;width:100%;max-width:480px;max-height:92vh;overflow:auto;background:var(--surf);border-radius:16px 16px 0 0;padding:18px 18px calc(16px + env(safe-area-inset-bottom,0px));z-index:41;animation:up .2s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+@keyframes pop{from{opacity:0}}
+@media (min-width:600px){.sheet{bottom:auto;top:50%;translate:0 -50%;border-radius:16px;animation:pop .15s ease-out}}
+@media (min-width:860px){
+  .dt{grid-template-columns:300px 1fr;gap:40px;align-items:start}
+  .hero{position:sticky;top:30px}
+}
+.prev{display:flex;gap:12px;align-items:center;margin:12px 0 10px}
+.prev input,.sheet textarea{width:100%;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.prev input{flex:1;font-weight:500;font-size:15px}
+.sheet textarea{resize:none;display:block}
+.prev input:focus,.sheet textarea:focus{outline:none;border-color:var(--c)}
+.prev input.bad{border-color:#E5484D}
+.lbl{margin:16px 0 8px;font-weight:500;color:var(--mut);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.pick{height:40px;border-radius:10px;border:1px solid transparent;background:var(--bg);color:var(--mut);display:grid;place-items:center;padding:0}
+.pick:hover{color:var(--ink)}
+.pick.sel{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--surf))}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.dot{width:28px;height:28px;border-radius:50%;background:var(--c);border:3px solid var(--surf);box-shadow:0 0 0 2px transparent;padding:0}
+.dot.sel{box-shadow:0 0 0 2px var(--ink)}
+.act{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<button id="fab" class="primary" data-act="new" aria-label="New skill" title="New skill" hidden></button>
+<nav aria-label="Sections"><a href="#learning" id="n1">Learning<span id="nl"></span></a><a href="#mastered" id="n2">Mastered<span id="nm"></span></a></nav>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+<script>
+/* tech / development icons (24x24 line paths) */
+const ICONS={
+code:'M16 18l6-6-6-6M8 6l-6 6 6 6',
+terminal:'M4 17l6-6-6-6M12 19h8',
+braces:'M8 3H7a2 2 0 00-2 2v5a2 2 0 01-2 2 2 2 0 012 2v5a2 2 0 002 2h1M16 21h1a2 2 0 002-2v-5a2 2 0 012-2 2 2 0 01-2-2V5a2 2 0 00-2-2h-1',
+cpu:'M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2zM9 9h6v6H9zM9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2',
+database:'M3 5c0-1.1 4-2 9-2s9 .9 9 2-4 2-9 2-9-.9-9-2zM3 5v14c0 1.1 4 2 9 2s9-.9 9-2V5M3 12c0 1.1 4 2 9 2s9-.9 9-2',
+globe:'M12 3a9 9 0 100 18 9 9 0 000-18zM3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z',
+server:'M4 3h16a1 1 0 011 1v5a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zM4 14h16a1 1 0 011 1v5a1 1 0 01-1 1H4a1 1 0 01-1-1v-5a1 1 0 011-1zM7 6.5h.01M7 17.5h.01',
+cloud:'M17.5 19H9a7 7 0 116.71-9h1.79a4.5 4.5 0 110 9z',
+git:'M6 3v12M18 9a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM18 9a9 9 0 01-9 9',
+bug:'M8 2l1.9 1.9M16 2l-1.9 1.9M9 7.1V6a3 3 0 016 0v1.1M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 014-4h4a4 4 0 014 4v3c0 3.3-2.7 6-6 6zM12 20v-9M6.5 13H2M17.5 13H22M3 21c0-2.1 1.7-3.9 3.8-4M21 21c0-2.1-1.7-3.9-3.8-4M6 8L3 6M18 8l3-2',
+shield:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+lock:'M5 11h14a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1zM8 11V7a4 4 0 018 0v4',
+phone:'M7 2h10a1 1 0 011 1v18a1 1 0 01-1 1H7a1 1 0 01-1-1V3a1 1 0 011-1zM12 18h.01',
+monitor:'M3 4h18a1 1 0 011 1v11a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1zM8 21h8M12 17v4',
+layout:'M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zM3 9h18M9 21V9',
+chart:'M3 3v18h18M8 17v-5M13 17V8M18 17v-9',
+bot:'M5 8h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2zM12 8V4H8M9 14v.01M15 14v.01M2 14h1M21 14h1',
+network:'M9 3h6v6H9zM2 15h6v6H2zM16 15h6v6h-6zM12 9v3M5 15v-3h14v3',
+package:'M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8',
+layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5'
+};
+const COLORS=['#EF5B5B','#E8890C','#5FA30F','#12A594','#2D8CF0','#5B5BD6','#A855C7','#E23D8A'];
+const KEY='skillwise:v1';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3);
+const fmt=t=>new Date(t).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+const svg=(p,s=18,w=2)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${p}"/></svg>`;
+const ico=(k,s=18)=>svg(ICONS[k]||ICONS.code,s,1.75);
+const I={ck:svg('M5 12.5l4.5 4.5L19 7.5',13,3),p:svg('M12 5v14M5 12h14',18),x:svg('M6 6l12 12M18 6L6 18',15),b:svg('M15 5l-7 7 7 7',18),t:svg('M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3',16)};
+
+let S={skills:[],t:0},dbDoc=null,saveT,tt;
+const ui={focus:false,draft:null,add:null};
+
+/* normalize saved data: nested micro skills, tech icon keys, description */
+const fix=a=>(a||[]).map(i=>({id:i.id,t:i.t,d:!!i.d,c:fix(i.c)}));
+function norm(){S.skills=(S.skills||[]).map(s=>({...s,items:fix(s.items),i:ICONS[s.i]?s.i:'code',desc:s.desc||''}))}
+try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+norm();
+
+function persist(){S.t=Date.now();clearTimeout(saveT);saveT=setTimeout(()=>{const j=JSON.stringify(S);try{localStorage.setItem(KEY,j)}catch(e){}if(dbDoc)dbDoc.set({json:j}).catch(()=>{})},300)}
+
+(async()=>{try{
+  if(!window.claude)return;
+  const [db,user]=await Promise.all([claude.use('db'),claude.use('user')]);
+  if(!db||!user)return;
+  const id=await user.id();if(!id)return;
+  const ref=db.doc('data/users/'+id+'/skills');
+  const snap=await ref.get();
+  if(snap.exists){const r=JSON.parse(snap.data().json);if((r.t||0)>(S.t||0)){S=r;norm();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()}}
+  else if(S.skills.length)ref.set({json:JSON.stringify(S)}).catch(()=>{});
+  dbDoc=ref;
+}catch(e){}})();
+
+function count(a){let d=0,t=0;for(const i of a){if(i.c.length){const [x,y]=count(i.c);d+=x;t+=y}else{t++;if(i.d)d++}}return[d,t]}
+function find(a,id){for(const i of a){if(i.id===id)return{i,a};const r=find(i.c,id);if(r)return r}}
+const setAll=(a,v)=>a.forEach(i=>{i.d=v;setAll(i.c,v)});
+function sync(a){for(const i of a)if(i.c.length){sync(i.c);i.d=i.c.every(k=>k.d)}}
+function changed(sk){
+  sync(sk.items);const [d,t]=count(sk.items);
+  if(t&&d===t){if(!sk.m){sk.m=Date.now();toast('Mastered “'+sk.n+'”. Nice work.')}}else sk.m=0;
+  persist();render();
+}
+const cur=()=>{const h=location.hash.slice(1);return h.startsWith('skill-')?S.skills.find(s=>s.id===h.slice(6)):null};
+
+function toast(m,undo){
+  const t=$('#toast');t.innerHTML='<span>'+esc(m)+'</span>'+(undo?'<button>Undo</button>':'');
+  t.classList.add('show');
+  const b=t.querySelector('button');if(b)b.onclick=()=>{undo();t.classList.remove('show')};
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),5000);
+}
+
+/* views */
+const tile=(sk,big)=>`<span class="tile${big?' big':''}" style="--c:${sk.c}">${ico(sk.i,big?22:18)}</span>`;
+function card(sk){
+  const [d,t]=count(sk.items),p=t?Math.round(d/t*100):0;
+  const l=sk.m?'Mastered on '+fmt(sk.m):(t?d+' of '+t+' micro skills':'No micro skills yet');
+  const r=sk.m?t+' micro skills':p+'%';
+  return `<button class="card" data-act="open" data-id="${sk.id}" style="--c:${sk.c}">${tile(sk)}<span class="cm"><b>${esc(sk.n)}</b>${sk.desc?`<span class="dsc">${esc(sk.desc)}</span>`:''}<span class="meta"><span>${l}</span><span>${r}</span></span><span class="bar" style="display:block"><i style="width:${sk.m?100:p}%"></i></span></span></button>`;
+}
+function learning(){
+  const l=S.skills.filter(s=>!s.m),n=l.length;
+  return `<header class="head"><h1>Learning</h1><p>${n?n+' skill'+(n>1?'s':'')+' in progress':'Nothing in progress yet'}</p></header>`+
+  (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Start with one skill</b><p>Pick an icon and a color, then add micro skills you can check off.</p><button class="primary" data-act="new">New skill</button></div>`);
+}
+function mastered(){
+  const l=S.skills.filter(s=>s.m).sort((a,b)=>b.m-a.m),n=l.length;
+  return `<header class="head"><h1>Mastered</h1><p>${n?n+' skill'+(n>1?'s':'')+' mastered':'Your finished skills will live here'}</p></header>`+
+  (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Nothing mastered yet</b><p>Check off every micro skill in a skill and it moves here automatically.</p></div>`);
+}
+function detail(sk){
+  const [d,t]=count(sk.items),p=t?Math.round(d/t*100):0;
+  return `<section class="dt" style="--c:${sk.c}">
+    <button class="round corner l" data-act="back" aria-label="Back">${I.b}</button>
+    <button class="round corner r" data-act="delskill" aria-label="Delete skill">${I.t}</button>
+    <div class="hero">
+      <div class="who">${tile(sk,1)}<h1>${esc(sk.n)}</h1></div>
+      <textarea class="desc" data-desc rows="1" maxlength="240" placeholder="Add a description" aria-label="Skill description">${esc(sk.desc)}</textarea>
+      <div class="nums"><div class="pct">${p}<small>%</small></div><span>${sk.m?'Mastered on '+fmt(sk.m):(t?d+' of '+t+' done':'No micro skills yet')}</span></div>
+      <div class="bar"><i style="width:${p}%"></i></div>
+    </div>
+    <div>
+      <h2>Micro skills</h2>
+      <div class="add"><input data-add maxlength="80" placeholder="Micro skill name" aria-label="Micro skill name"><button class="ib" data-act="addm" aria-label="Add micro skill">${I.p}</button></div>
+      ${t?tree(sk.items):`<p class="note">Type a name above and press Enter.</p>`}
+    </div>
+  </section>`;
+}
+function tree(a){
+  return '<ul class="tree">'+a.map(i=>{
+    const k=i.c.length,[d,t]=k?count(i.c):[0,0];
+    return `<li><div class="row${i.d?' done':''}"><button class="cb${i.d?' on':''}" data-act="toggle" data-id="${i.id}" role="checkbox" aria-checked="${i.d}" aria-label="${esc(i.t)}">${i.d?I.ck:''}</button><span class="txt">${esc(i.t)}</span>${k?`<span class="cnt">${d}/${t}</span>`:''}<span class="acts"><button class="ib sub" data-act="addc" data-id="${i.id}" aria-label="Add a step inside “${esc(i.t)}”">${I.p}</button><button class="ib" data-act="del" data-id="${i.id}" aria-label="Remove “${esc(i.t)}”">${I.x}</button></span></div>${ui.add===i.id?`<div class="addrow"><input data-sub="${i.id}" maxlength="80" placeholder="Step name" aria-label="Step name"></div>`:''}${k?tree(i.c):''}</li>`;
+  }).join('')+'</ul>';
+}
+const grow=el=>{el.style.height='auto';el.style.height=el.scrollHeight+'px'};
+function render(){
+  const h=location.hash.slice(1)||'learning',sk=cur();
+  if(h.startsWith('skill-')&&!sk){location.hash='learning';return}
+  const tab=sk?(sk.m?'mastered':'learning'):(h==='mastered'?'mastered':'learning');
+  $('#n1').classList.toggle('on',tab==='learning');$('#n2').classList.toggle('on',tab==='mastered');
+  $('#nl').textContent=S.skills.filter(s=>!s.m).length||'';$('#nm').textContent=S.skills.filter(s=>s.m).length||'';
+  const fab=$('#fab');fab.hidden=!!sk||h==='mastered';fab.innerHTML=I.p;
+  $('#app').innerHTML=sk?detail(sk):h==='mastered'?mastered():learning();
+  document.querySelectorAll('.desc').forEach(grow);
+  if(ui.focus){const el=ui.focus===true?$('input[data-add]'):$('[data-sub="'+ui.focus+'"]');if(el)el.focus();ui.focus=false}
+}
+
+/* new skill sheet: built once; icon and color changes update it in place (no re-render) */
+function modal(){
+  const d=ui.draft,m=$('#modal');
+  m.innerHTML=d?`<div class="scrim" data-act="closem"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="New skill" style="--c:${d.color}">
+    <h2>New skill</h2>
+    <div class="prev"><span class="tile big">${ico(d.icon,22)}</span><input id="sn" maxlength="40" placeholder="What are you learning?" value="${esc(d.name)}"></div>
+    <textarea id="sd" rows="2" maxlength="240" placeholder="Description (optional)">${esc(d.desc)}</textarea>
+    <p class="lbl">Icon</p><div class="grid">${Object.keys(ICONS).map(k=>`<button class="pick${k===d.icon?' sel':''}" data-icon="${k}" aria-label="${k}" title="${k}">${ico(k,18)}</button>`).join('')}</div>
+    <p class="lbl">Color</p><div class="sw">${COLORS.map(c=>`<button class="dot${c===d.color?' sel':''}" data-color="${c}" style="--c:${c}" aria-label="Color ${c}"></button>`).join('')}</div>
+    <div class="act"><button class="ghost" data-act="closem">Cancel</button><button class="primary" data-act="create">Create skill</button></div></div>`:'';
+}
+function paint(){
+  const d=ui.draft,s=$('.sheet');if(!s)return;
+  s.style.setProperty('--c',d.color);
+  s.querySelector('.prev .tile').innerHTML=ico(d.icon,22);
+  s.querySelectorAll('[data-icon]').forEach(b=>b.classList.toggle('sel',b.dataset.icon===d.icon));
+  s.querySelectorAll('[data-color]').forEach(b=>b.classList.toggle('sel',b.dataset.color===d.color));
+}
+function create(){
+  const d=ui.draft,n=d.name.trim();
+  if(!n){const el=$('#sn');el.classList.add('bad');el.focus();return}
+  const sk={id:uid(),n,i:d.icon,c:d.color,m:0,at:Date.now(),desc:d.desc.trim(),items:[]};
+  S.skills.unshift(sk);ui.draft=null;modal();persist();ui.focus=true;location.hash='skill-'+sk.id;
+}
+function addMicro(){
+  const el=$('input[data-add]'),sk=cur();if(!el||!sk)return;
+  const v=el.value.trim();if(!v){el.focus();return}
+  sk.items.push({id:uid(),t:v,d:false,c:[]});ui.focus=true;changed(sk);
+}
+function addSub(el){
+  const sk=cur(),r=sk&&find(sk.items,el.dataset.sub),v=el.value.trim();if(!r||!v)return;
+  r.i.c.push({id:uid(),t:v,d:false,c:[]});ui.add=r.i.id;ui.focus=r.i.id;changed(sk);
+}
+
+/* events */
+document.addEventListener('click',e=>{
+  /* clicking anywhere outside the open step input closes it */
+  if(ui.add&&!e.target.closest('.addrow,[data-act="addc"]')){ui.add=null;render()}
+  const b=e.target.closest('[data-act],[data-icon],[data-color]');if(!b)return;
+  if(b.dataset.icon){ui.draft.icon=b.dataset.icon;paint();return}
+  if(b.dataset.color){ui.draft.color=b.dataset.color;paint();return}
+  const a=b.dataset.act,id=b.dataset.id,sk=cur();
+  if(a==='open')location.hash='skill-'+id;
+  else if(a==='new'){ui.draft={name:'',desc:'',icon:'code',color:COLORS[4]};modal();$('#sn').focus()}
+  else if(a==='closem'){ui.draft=null;modal()}
+  else if(a==='create')create();
+  else if(a==='back')location.hash=sk&&sk.m?'mastered':'learning';
+  else if(a==='addm')addMicro();
+  else if(a==='addc'&&sk){
+    const open=ui.add===id&&$('[data-sub="'+id+'"]');
+    if(open)open.focus();else{ui.add=id;ui.focus=id;render()}
+  }
+  else if(a==='toggle'&&sk){const r=find(sk.items,id);if(r){r.i.d=!r.i.d;setAll(r.i.c,r.i.d);changed(sk)}}
+  else if(a==='del'&&sk){
+    const snap=JSON.stringify(sk.items),r=find(sk.items,id);if(!r)return;
+    r.a.splice(r.a.indexOf(r.i),1);changed(sk);
+    toast('Removed “'+r.i.t+'”',()=>{sk.items=JSON.parse(snap);changed(sk)});
+  }
+  else if(a==='delskill'&&sk){
+    const idx=S.skills.indexOf(sk);S.skills.splice(idx,1);persist();location.hash='learning';
+    toast('Deleted “'+sk.n+'”',()=>{S.skills.splice(idx,0,sk);persist();render()});
+  }
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.id==='sn'){ui.draft.name=t.value;t.classList.remove('bad')}
+  else if(t.id==='sd')ui.draft.desc=t.value;
+  else if(t.matches&&t.matches('[data-desc]')){const sk=cur();if(sk){sk.desc=t.value;persist()}grow(t)}
+});
+document.addEventListener('keydown',e=>{
+  const t=e.target;
+  if(e.key==='Escape'&&ui.draft){ui.draft=null;modal();return}
+  if(t.id==='sn'&&e.key==='Enter'){create();return}
+  if(t.matches&&t.matches('input[data-add]')&&e.key==='Enter')addMicro();
+  else if(t.matches&&t.matches('input[data-sub]')){if(e.key==='Escape'){ui.add=null;render()}else if(e.key==='Enter')addSub(t)}
+});
+/* leaving the input by keyboard (Tab) also closes it; mouse/touch is handled by the click rule above */
+let pd=false;
+document.addEventListener('pointerdown',()=>{pd=true},true);
+['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,()=>{pd=false},true));
+document.addEventListener('focusout',e=>{
+  const t=e.target;if(pd||!(t.matches&&t.matches('input[data-sub]')))return;
+  setTimeout(()=>{const a=document.activeElement;if(ui.add===t.dataset.sub&&!(a&&a.matches('input[data-sub]'))){ui.add=null;render()}},0);
+});
+window.addEventListener('hashchange',()=>{ui.add=null;render();window.scrollTo(0,0)});
+render();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
