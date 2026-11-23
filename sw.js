@@ -1,5 +1,5 @@
 /* Bump VERSION whenever you change index.html so phones pick up the new copy. */
-const VERSION='skillwise-v1';
+const VERSION='skillbase-v1';
 const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));

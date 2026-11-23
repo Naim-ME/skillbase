@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Skillwise</title>
+<title>Skillbase</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#EDEFF3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0F121A" media="(prefers-color-scheme: dark)">
@@ -148,7 +148,7 @@ package:'M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8',
 layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5'
 };
 const COLORS=['#EF5B5B','#E8890C','#5FA30F','#12A594','#2D8CF0','#5B5BD6','#A855C7','#E23D8A'];
-const KEY='skillwise:v1';
+const KEY='skillbase:v1';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3);
@@ -163,7 +163,7 @@ const ui={focus:false,draft:null,add:null};
 /* normalize saved data: nested micro skills, tech icon keys, description */
 const fix=a=>(a||[]).map(i=>({id:i.id,t:i.t,d:!!i.d,c:fix(i.c)}));
 function norm(){S.skills=(S.skills||[]).map(s=>({...s,items:fix(s.items),i:ICONS[s.i]?s.i:'code',desc:s.desc||''}))}
-try{const j=localStorage.getItem(KEY);if(j)S=JSON.parse(j)}catch(e){}
+try{const j=localStorage.getItem(KEY)||localStorage.getItem('skillwise:v1');if(j)S=JSON.parse(j)}catch(e){}
 norm();
 
 function persist(){S.t=Date.now();clearTimeout(saveT);saveT=setTimeout(()=>{const j=JSON.stringify(S);try{localStorage.setItem(KEY,j)}catch(e){}if(dbDoc)dbDoc.set({json:j}).catch(()=>{})},300)}

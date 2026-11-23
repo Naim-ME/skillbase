@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Skillwise",
-  "short_name": "Skillwise",
+  "name": "Skillbase",
+  "short_name": "Skillbase",
   "description": "Track skills and break them into micro skills.",
   "start_url": "./",
   "scope": "./",
