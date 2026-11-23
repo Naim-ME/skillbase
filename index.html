@@ -13,11 +13,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#EDEFF3;--surf:#FFFFFF;--ink:#171B26;--mut:#5B6577;--line:#DCE0E8;--track:#E2E6ED;--bd:#AEB6C6;color-scheme:light;
+:root{--bg:#EDEFF3;--surf:#FFFFFF;--ink:#171B26;--mut:#5B6577;--line:#DCE0E8;--track:#E2E6ED;--bd:#AEB6C6;--brand:#051E42;color-scheme:light;
 --disp:"Bricolage Grotesque",ui-rounded,system-ui,sans-serif;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F121A;--surf:#171B26;--ink:#ECEFF5;--mut:#9AA4B8;--line:#2A3040;--track:#262C3A;--bd:#4A5268;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0F121A;--surf:#171B26;--ink:#ECEFF5;--mut:#9AA4B8;--line:#2A3040;--track:#262C3A;--bd:#4A5268;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F121A;--surf:#171B26;--ink:#ECEFF5;--mut:#9AA4B8;--line:#2A3040;--track:#262C3A;--bd:#4A5268;--brand:#ECEFF5;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F121A;--surf:#171B26;--ink:#ECEFF5;--mut:#9AA4B8;--line:#2A3040;--track:#262C3A;--bd:#4A5268;--brand:#ECEFF5;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.5 Figtree,system-ui,sans-serif;min-height:100vh}
@@ -25,6 +25,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--c,var(--ink));outline-offset:2px}
 main{max-width:1040px;margin:0 auto;padding:28px 20px 140px}
 h1,h2{font-family:var(--disp);margin:0;font-weight:600}
+.brand{display:flex;align-items:center;gap:8px;margin:0 0 22px}
+.brand .mk{display:block;height:40px;width:auto}
+.brand .wm{display:block;height:40px;aspect-ratio:428/160;background:var(--brand);-webkit-mask:url(logo-word.png) center/100% 100% no-repeat;mask:url(logo-word.png) center/100% 100% no-repeat}
 .head h1{font-size:24px;letter-spacing:-.01em}
 .head p{margin:2px 0 18px;color:var(--mut);font-size:13px}
 .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
@@ -124,7 +127,7 @@ h2{font-size:15px;margin-bottom:10px}
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="modal"></div>
 <script>
-/* tech / development icons (24x24 line paths) */
+/* icons (24x24 line paths) */
 const ICONS={
 code:'M16 18l6-6-6-6M8 6l-6 6 6 6',
 terminal:'M4 17l6-6-6-6M12 19h8',
@@ -145,9 +148,48 @@ chart:'M3 3v18h18M8 17v-5M13 17V8M18 17v-9',
 bot:'M5 8h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2zM12 8V4H8M9 14v.01M15 14v.01M2 14h1M21 14h1',
 network:'M9 3h6v6H9zM2 15h6v6H2zM16 15h6v6h-6zM12 9v3M5 15v-3h14v3',
 package:'M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8',
-layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5'
+layers:'M12 2l10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5',
+zap:'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
+wifi:'M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01',
+activity:'M22 12h-4l-3 9L9 3l-3 9H2',
+cube:'M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12',
+harddrive:'M22 12H2M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11zM6 16h.01M10 16h.01',
+filecode:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M10 13l-2 2 2 2M14 13l2 2-2 2',
+filetext:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8',
+folder:'M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z',
+command:'M18 3a3 3 0 00-3 3v12a3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3H6a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3V6a3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3h12a3 3 0 003-3 3 3 0 00-3-3z',
+hash:'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18',
+at:'M12 16a4 4 0 100-8 4 4 0 000 8zM16 8v5a3 3 0 006 0v-1a10 10 0 10-3.92 7.94',
+mail:'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6',
+key:'M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4',
+link:'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
+download:'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3',
+upload:'M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12',
+sync:'M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15',
+wrench:'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z',
+sliders:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',
+grid:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
+search:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35',
+eye:'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 100-6 3 3 0 000 6z',
+target:'M12 22a10 10 0 100-20 10 10 0 000 20zM12 18a6 6 0 100-12 6 6 0 000 12zM12 14a2 2 0 100-4 2 2 0 000 4z',
+trend:'M23 6l-9.5 9.5-5-5L1 18M17 6h6v6',
+pie:'M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z',
+bulb:'M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 006 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4',
+flask:'M9 3h6M10 3v6L4 19a2 2 0 001.7 3h12.6a2 2 0 001.7-3l-6-10V3',
+book:'M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z',
+pen:'M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z',
+clock:'M12 22a10 10 0 100-20 10 10 0 000 20zM12 6v6l4 2',
+calendar:'M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zM16 2v4M8 2v4M3 10h18',
+camera:'M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2zM12 17a4 4 0 100-8 4 4 0 000 8z',
+music:'M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM21 16a3 3 0 11-6 0 3 3 0 016 0z',
+headphones:'M3 18v-6a9 9 0 0118 0v6M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z',
+gamepad:'M6 12h4M8 10v4M15 13h.01M18 11h.01M17.32 5H6.68a4 4 0 00-3.978 3.59C2.604 9.416 2 14.456 2 16a3 3 0 003 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 019.828 16h4.344a2 2 0 011.414.586L17 18c.5.5 1 1 2 1a3 3 0 003-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0017.32 5z',
+flag:'M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7',
+star:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
+award:'M12 15a7 7 0 100-14 7 7 0 000 14zM8.21 13.89L7 23l5-3 5 3-1.21-9.12',
+heart:'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z'
 };
-const COLORS=['#EF5B5B','#E8890C','#5FA30F','#12A594','#2D8CF0','#5B5BD6','#A855C7','#E23D8A'];
+const COLORS=['#B5483A','#EF5B5B','#FF7A59','#D9480F','#E8890C','#F59F00','#A9713B','#82B21E','#5FA30F','#2F9E44','#0CA678','#12A594','#15AABF','#2D8CF0','#1971C2','#3B5BDB','#5B5BD6','#7048E8','#9C36B5','#A855C7','#C2255C','#E23D8A','#F06595','#7C8DA6'];
 const KEY='skillbase:v1';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -206,14 +248,15 @@ function card(sk){
   const r=sk.m?t+' micro skills':p+'%';
   return `<button class="card" data-act="open" data-id="${sk.id}" style="--c:${sk.c}">${tile(sk)}<span class="cm"><b>${esc(sk.n)}</b>${sk.desc?`<span class="dsc">${esc(sk.desc)}</span>`:''}<span class="meta"><span>${l}</span><span>${r}</span></span><span class="bar" style="display:block"><i style="width:${sk.m?100:p}%"></i></span></span></button>`;
 }
+const brand=()=>`<div class="brand"><img class="mk" src="logo-mark.png" alt="" width="34" height="40"><span class="wm" role="img" aria-label="Skillbase"></span></div>`;
 function learning(){
   const l=S.skills.filter(s=>!s.m),n=l.length;
-  return `<header class="head"><h1>Learning</h1><p>${n?n+' skill'+(n>1?'s':'')+' in progress':'Nothing in progress yet'}</p></header>`+
+  return brand()+`<header class="head"><h1>Learning</h1><p>${n?n+' skill'+(n>1?'s':'')+' in progress':'Nothing in progress yet'}</p></header>`+
   (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Start with one skill</b><p>Pick an icon and a color, then add micro skills you can check off.</p><button class="primary" data-act="new">New skill</button></div>`);
 }
 function mastered(){
   const l=S.skills.filter(s=>s.m).sort((a,b)=>b.m-a.m),n=l.length;
-  return `<header class="head"><h1>Mastered</h1><p>${n?n+' skill'+(n>1?'s':'')+' mastered':'Your finished skills will live here'}</p></header>`+
+  return brand()+`<header class="head"><h1>Mastered</h1><p>${n?n+' skill'+(n>1?'s':'')+' mastered':'Your finished skills will live here'}</p></header>`+
   (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Nothing mastered yet</b><p>Check off every micro skill in a skill and it moves here automatically.</p></div>`);
 }
 function detail(sk){
@@ -296,7 +339,7 @@ document.addEventListener('click',e=>{
   if(b.dataset.color){ui.draft.color=b.dataset.color;paint();return}
   const a=b.dataset.act,id=b.dataset.id,sk=cur();
   if(a==='open')location.hash='skill-'+id;
-  else if(a==='new'){ui.draft={name:'',desc:'',icon:'code',color:COLORS[4]};modal();$('#sn').focus()}
+  else if(a==='new'){ui.draft={name:'',desc:'',icon:'code',color:'#2D8CF0'};modal();$('#sn').focus()}
   else if(a==='closem'){ui.draft=null;modal()}
   else if(a==='create')create();
   else if(a==='back')location.hash=sk&&sk.m?'mastered':'learning';
