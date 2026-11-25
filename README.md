@@ -1,7 +1,7 @@
 # skillbase
 A minimalist skill tracker. Break any skill into micro skills with optional sub-steps, check them off, and watch your progress until it’s mastered. Installable offline PWA with no dependencies. Your data stays on your device.
 
-## Updates (v0.7)
+## Updates (v0.5)
 - Skills now have a priority. Rate a skill from 1 to 5 stars when you create it (tap the same star again to clear it). The stars show at the top right of each skill card, you can change them from the skill’s page, and they light up as you hover over them.
 - Skills, micro skills and sub-steps are all editable: a pencil renames, a plus adds a step inside, and a bin deletes.
 - Skills under Micro Skills are now collapsible under a dropdown menu, and it remembers whether you left it open or closed.
