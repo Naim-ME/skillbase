@@ -76,11 +76,38 @@ h2{font-size:15px;margin-bottom:10px}
 .row{display:flex;align-items:center;gap:10px;padding:8px 2px}
 .tree .tree{margin:0 0 4px 9px;padding-left:15px;border-left:1px solid var(--line)}
 .cnt{font-size:12px;color:var(--mut)}
+.fold{display:flex;align-items:center;gap:2px;height:26px;padding:0 4px 0 8px;border:0;border-radius:8px;background:none;color:var(--mut)}
+.fold:hover{background:var(--track);color:var(--ink)}
+.ed{flex:1;min-width:0;padding:5px 8px;border-radius:8px;border:1px solid var(--c);background:var(--surf);color:var(--ink);font:inherit}
+.ed:focus{outline:none}
+.who .ed{font:600 18px var(--disp);padding:6px 10px}
+.corner.grp{display:flex;gap:6px}
+.cw{display:flex;gap:2px;align-items:stretch}
+.cw .card{flex:1;min-width:0;width:auto}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.top b{flex:1;min-width:0}
+.stars,.rate{display:flex;gap:1px;flex:none}
+.stars{margin-top:2px}
+.sv{fill:none;stroke:var(--bd);stroke-width:1.6;stroke-linejoin:round}
+.sv.on{fill:#F5A623;stroke:#F5A623}
+.st{border:0;background:none;padding:2px;display:grid;place-items:center}
+.sv{transition:fill .12s,stroke .12s,transform .12s}
+@media (hover:hover){
+  .rate:hover .sv{fill:#F5A623;stroke:#F5A623}
+  .rate .st:hover~.st .sv{fill:none;stroke:var(--bd)}
+  .rate .st:hover .sv{transform:scale(1.15)}
+}
+.rrow{display:flex;justify-content:flex-end;margin:-6px -4px 8px 0}
+.grip{display:grid;place-items:center;flex:none;border:0;background:none;color:var(--mut);cursor:grab;touch-action:none;padding:0;border-radius:6px;-webkit-user-select:none;user-select:none}
+.cw>.grip{width:20px;opacity:.6}
+.row .grip{width:14px;height:28px;margin-right:-4px}
+.drag{outline:2px dashed var(--c);outline-offset:2px;border-radius:10px;opacity:.7}
+body.dg,body.dg *{cursor:grabbing!important;-webkit-user-select:none;user-select:none}
 .acts{display:flex;gap:2px;align-items:center}
 .sub{opacity:0;transition:opacity .15s}
 .row:hover .sub,.row:focus-within .sub{opacity:1}
 @media (hover:none){.sub{opacity:.7}}
-.addrow{padding:0 0 6px 30px}
+.addrow{padding:0 0 6px 50px}
 .addrow input{width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit;font-size:13px}
 .addrow input:focus{outline:none;border-color:var(--c)}
 .cb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bd);background:transparent;flex:none;display:grid;place-items:center;color:#fff;padding:0;transition:background .15s}
@@ -197,14 +224,14 @@ const uid=()=>Math.random().toString(36).slice(2,8)+Date.now().toString(36).slic
 const fmt=t=>new Date(t).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
 const svg=(p,s=18,w=2)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${p}"/></svg>`;
 const ico=(k,s=18)=>svg(ICONS[k]||ICONS.code,s,1.75);
-const I={ck:svg('M5 12.5l4.5 4.5L19 7.5',13,3),p:svg('M12 5v14M5 12h14',18),x:svg('M6 6l12 12M18 6L6 18',15),b:svg('M15 5l-7 7 7 7',18),t:svg('M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3',16)};
+const I={ck:svg('M5 12.5l4.5 4.5L19 7.5',13,3),p:svg('M12 5v14M5 12h14',18),x:svg('M6 6l12 12M18 6L6 18',15),b:svg('M15 5l-7 7 7 7',18),t:svg('M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3',16),e:svg(ICONS.pen,16),cd:svg('M6 9l6 6 6-6',16),cr:svg('M9 6l6 6-6 6',16)};
 
 let S={skills:[],t:0},dbDoc=null,saveT,tt;
-const ui={focus:false,draft:null,add:null};
+const ui={focus:false,draft:null,add:null,edit:null,fe:false,fg:null};
 
 /* normalize saved data: nested micro skills, tech icon keys, description */
-const fix=a=>(a||[]).map(i=>({id:i.id,t:i.t,d:!!i.d,c:fix(i.c)}));
-function norm(){S.skills=(S.skills||[]).map(s=>({...s,items:fix(s.items),i:ICONS[s.i]?s.i:'code',desc:s.desc||''}))}
+const fix=a=>(a||[]).map(i=>({id:i.id,t:i.t,d:!!i.d,x:!!i.x,c:fix(i.c)}));
+function norm(){S.skills=(S.skills||[]).map(s=>({...s,items:fix(s.items),i:ICONS[s.i]?s.i:'code',desc:s.desc||'',r:[1,2,3,4,5].includes(s.r)?s.r:0}))}
 try{const j=localStorage.getItem(KEY)||localStorage.getItem('skillwise:v1');if(j)S=JSON.parse(j)}catch(e){}
 norm();
 
@@ -226,6 +253,15 @@ function count(a){let d=0,t=0;for(const i of a){if(i.c.length){const [x,y]=count
 function find(a,id){for(const i of a){if(i.id===id)return{i,a};const r=find(i.c,id);if(r)return r}}
 const setAll=(a,v)=>a.forEach(i=>{i.d=v;setAll(i.c,v)});
 function sync(a){for(const i of a)if(i.c.length){sync(i.c);i.d=i.c.every(k=>k.d)}}
+/* each micro skill gets an equal share of 100%; the steps inside it split that share equally, at any depth */
+const share=a=>a.length?a.reduce((s,i)=>s+(i.c.length?share(i.c):(i.d?1:0)),0)/a.length:0;
+const pctOf=sk=>Math.round(share(sk.items)*100);
+/* priority stars (1 to 5, tap the same star again to clear) and the drag handle */
+const STAR='M12 2.7l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17l-5.7 3.2 1.2-6.4L2.8 9.4l6.4-.8z';
+const GRIP='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.7"/><circle cx="15" cy="6" r="1.7"/><circle cx="9" cy="12" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="9" cy="18" r="1.7"/><circle cx="15" cy="18" r="1.7"/></svg>';
+const star=(on,z)=>`<svg class="sv${on?' on':''}" viewBox="0 0 24 24" width="${z}" height="${z}" aria-hidden="true"><path d="${STAR}"/></svg>`;
+const stars=n=>`<span class="stars" role="img" aria-label="Priority ${n||0} of 5">`+[1,2,3,4,5].map(k=>star(k<=n,12)).join('')+'</span>';
+const rater=n=>'<span class="rate" role="group" aria-label="Priority">'+[1,2,3,4,5].map(k=>`<button class="st${k<=n?' on':''}" data-act="rate" data-n="${k}" aria-label="${k} star${k>1?'s':''}" aria-pressed="${k===n}">${star(k<=n,24)}</button>`).join('')+'</span>';
 function changed(sk){
   sync(sk.items);const [d,t]=count(sk.items);
   if(t&&d===t){if(!sk.m){sk.m=Date.now();toast('Mastered “'+sk.n+'”. Nice work.')}}else sk.m=0;
@@ -243,16 +279,17 @@ function toast(m,undo){
 /* views */
 const tile=(sk,big)=>`<span class="tile${big?' big':''}" style="--c:${sk.c}">${ico(sk.i,big?22:18)}</span>`;
 function card(sk){
-  const [d,t]=count(sk.items),p=t?Math.round(d/t*100):0;
+  const t=sk.items.length,d=sk.items.filter(i=>i.d).length,p=pctOf(sk);
   const l=sk.m?'Mastered on '+fmt(sk.m):(t?d+' of '+t+' micro skills':'No micro skills yet');
   const r=sk.m?t+' micro skills':p+'%';
-  return `<button class="card" data-act="open" data-id="${sk.id}" style="--c:${sk.c}">${tile(sk)}<span class="cm"><b>${esc(sk.n)}</b>${sk.desc?`<span class="dsc">${esc(sk.desc)}</span>`:''}<span class="meta"><span>${l}</span><span>${r}</span></span><span class="bar" style="display:block"><i style="width:${sk.m?100:p}%"></i></span></span></button>`;
+  return `<button class="card" data-act="open" data-id="${sk.id}" style="--c:${sk.c}">${tile(sk)}<span class="cm"><span class="top"><b>${esc(sk.n)}</b>${stars(sk.r)}</span>${sk.desc?`<span class="dsc">${esc(sk.desc)}</span>`:''}<span class="meta"><span>${l}</span><span>${r}</span></span><span class="bar" style="display:block"><i style="width:${sk.m?100:p}%"></i></span></span></button>`;
 }
+const cw=sk=>`<div class="cw" data-sid="${sk.id}"><button class="grip" aria-label="Reorder ${esc(sk.n)}: drag, or press the arrow keys" title="Drag to reorder">${GRIP}</button>${card(sk)}</div>`;
 const brand=()=>`<div class="brand"><img class="mk" src="logo-mark.png" alt="" width="34" height="40"><span class="wm" role="img" aria-label="Skillbase"></span></div>`;
 function learning(){
   const l=S.skills.filter(s=>!s.m),n=l.length;
   return brand()+`<header class="head"><h1>Learning</h1><p>${n?n+' skill'+(n>1?'s':'')+' in progress':'Nothing in progress yet'}</p></header>`+
-  (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Start with one skill</b><p>Pick an icon and a color, then add micro skills you can check off.</p><button class="primary" data-act="new">New skill</button></div>`);
+  (n?`<div class="list" data-list="skills">${l.map(cw).join('')}</div>`:`<div class="empty"><b>Start with one skill</b><p>Pick an icon and a color, then add micro skills you can check off.</p><button class="primary" data-act="new">New skill</button></div>`);
 }
 function mastered(){
   const l=S.skills.filter(s=>s.m).sort((a,b)=>b.m-a.m),n=l.length;
@@ -260,12 +297,12 @@ function mastered(){
   (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Nothing mastered yet</b><p>Check off every micro skill in a skill and it moves here automatically.</p></div>`);
 }
 function detail(sk){
-  const [d,t]=count(sk.items),p=t?Math.round(d/t*100):0;
+  const t=sk.items.length,d=sk.items.filter(i=>i.d).length,p=pctOf(sk);
   return `<section class="dt" style="--c:${sk.c}">
     <button class="round corner l" data-act="back" aria-label="Back">${I.b}</button>
-    <button class="round corner r" data-act="delskill" aria-label="Delete skill">${I.t}</button>
-    <div class="hero">
-      <div class="who">${tile(sk,1)}<h1>${esc(sk.n)}</h1></div>
+    <div class="corner r grp"><button class="round" data-act="edit" data-id="skill" aria-label="Rename skill">${I.e}</button><button class="round" data-act="focusm" aria-label="Add micro skill">${I.p}</button><button class="round" data-act="delskill" aria-label="Delete skill">${I.t}</button></div>
+    <div class="hero"><div class="rrow">${rater(sk.r)}</div>
+      <div class="who">${tile(sk,1)}${ui.edit==='skill'?`<input class="ed" data-edit="skill" maxlength="40" value="${esc(sk.n)}" aria-label="Rename skill">`:`<h1>${esc(sk.n)}</h1>`}</div>
       <textarea class="desc" data-desc rows="1" maxlength="240" placeholder="Add a description" aria-label="Skill description">${esc(sk.desc)}</textarea>
       <div class="nums"><div class="pct">${p}<small>%</small></div><span>${sk.m?'Mastered on '+fmt(sk.m):(t?d+' of '+t+' done':'No micro skills yet')}</span></div>
       <div class="bar"><i style="width:${p}%"></i></div>
@@ -277,10 +314,10 @@ function detail(sk){
     </div>
   </section>`;
 }
-function tree(a){
-  return '<ul class="tree">'+a.map(i=>{
-    const k=i.c.length,[d,t]=k?count(i.c):[0,0];
-    return `<li><div class="row${i.d?' done':''}"><button class="cb${i.d?' on':''}" data-act="toggle" data-id="${i.id}" role="checkbox" aria-checked="${i.d}" aria-label="${esc(i.t)}">${i.d?I.ck:''}</button><span class="txt">${esc(i.t)}</span>${k?`<span class="cnt">${d}/${t}</span>`:''}<span class="acts"><button class="ib sub" data-act="addc" data-id="${i.id}" aria-label="Add a step inside “${esc(i.t)}”">${I.p}</button><button class="ib" data-act="del" data-id="${i.id}" aria-label="Remove “${esc(i.t)}”">${I.x}</button></span></div>${ui.add===i.id?`<div class="addrow"><input data-sub="${i.id}" maxlength="80" placeholder="Step name" aria-label="Step name"></div>`:''}${k?tree(i.c):''}</li>`;
+function tree(a,pid='root'){
+  return '<ul class="tree" data-list="'+pid+'">'+a.map(i=>{
+    const k=i.c.length,d=i.c.filter(x=>x.d).length;
+    return `<li data-sid="${i.id}"><div class="row${i.d?' done':''}"><button class="grip sub" aria-label="Reorder “${esc(i.t)}”: drag, or press the arrow keys" title="Drag to reorder">${GRIP}</button><button class="cb${i.d?' on':''}" data-act="toggle" data-id="${i.id}" role="checkbox" aria-checked="${i.d}" aria-label="${esc(i.t)}">${i.d?I.ck:''}</button>${ui.edit===i.id?`<input class="ed" data-edit="${i.id}" maxlength="80" value="${esc(i.t)}" aria-label="Rename">`:`<span class="txt">${esc(i.t)}</span>`}${k?`<button class="fold" data-act="fold" data-id="${i.id}" aria-expanded="${!i.x}" aria-label="${i.x?'Show':'Hide'} steps inside “${esc(i.t)}”"><span class="cnt">${d}/${k}</span>${i.x?I.cr:I.cd}</button>`:''}<span class="acts"><button class="ib sub" data-act="edit" data-id="${i.id}" aria-label="Rename “${esc(i.t)}”">${I.e}</button><button class="ib sub" data-act="addc" data-id="${i.id}" aria-label="Add a step inside “${esc(i.t)}”">${I.p}</button><button class="ib sub" data-act="del" data-id="${i.id}" aria-label="Remove “${esc(i.t)}”">${I.t}</button></span></div>${ui.add===i.id?`<div class="addrow"><input data-sub="${i.id}" maxlength="80" placeholder="Step name" aria-label="Step name"></div>`:''}${k&&!i.x?tree(i.c,i.id):''}</li>`;
   }).join('')+'</ul>';
 }
 const grow=el=>{el.style.height='auto';el.style.height=el.scrollHeight+'px'};
@@ -294,6 +331,8 @@ function render(){
   $('#app').innerHTML=sk?detail(sk):h==='mastered'?mastered():learning();
   document.querySelectorAll('.desc').forEach(grow);
   if(ui.focus){const el=ui.focus===true?$('input[data-add]'):$('[data-sub="'+ui.focus+'"]');if(el)el.focus();ui.focus=false}
+  if(ui.fe){const el=$('input[data-edit]');if(el){el.focus();el.select()}ui.fe=false}
+  if(ui.fg){const g=$('[data-sid="'+ui.fg+'"] .grip');if(g)g.focus();ui.fg=null}
 }
 
 /* new skill sheet: built once; icon and color changes update it in place (no re-render) */
@@ -303,7 +342,7 @@ function modal(){
     <h2>New skill</h2>
     <div class="prev"><span class="tile big">${ico(d.icon,22)}</span><input id="sn" maxlength="40" placeholder="What are you learning?" value="${esc(d.name)}"></div>
     <textarea id="sd" rows="2" maxlength="240" placeholder="Description (optional)">${esc(d.desc)}</textarea>
-    <p class="lbl">Icon</p><div class="grid">${Object.keys(ICONS).map(k=>`<button class="pick${k===d.icon?' sel':''}" data-icon="${k}" aria-label="${k}" title="${k}">${ico(k,18)}</button>`).join('')}</div>
+    <p class="lbl">Priority</p>${rater(d.rate)}<p class="lbl">Icon</p><div class="grid">${Object.keys(ICONS).map(k=>`<button class="pick${k===d.icon?' sel':''}" data-icon="${k}" aria-label="${k}" title="${k}">${ico(k,18)}</button>`).join('')}</div>
     <p class="lbl">Color</p><div class="sw">${COLORS.map(c=>`<button class="dot${c===d.color?' sel':''}" data-color="${c}" style="--c:${c}" aria-label="Color ${c}"></button>`).join('')}</div>
     <div class="act"><button class="ghost" data-act="closem">Cancel</button><button class="primary" data-act="create">Create skill</button></div></div>`:'';
 }
@@ -313,11 +352,12 @@ function paint(){
   s.querySelector('.prev .tile').innerHTML=ico(d.icon,22);
   s.querySelectorAll('[data-icon]').forEach(b=>b.classList.toggle('sel',b.dataset.icon===d.icon));
   s.querySelectorAll('[data-color]').forEach(b=>b.classList.toggle('sel',b.dataset.color===d.color));
+  s.querySelectorAll('.st').forEach(b=>{const k=+b.dataset.n,on=k<=d.rate;b.classList.toggle('on',on);b.firstChild.classList.toggle('on',on);b.setAttribute('aria-pressed',k===d.rate)});
 }
 function create(){
   const d=ui.draft,n=d.name.trim();
   if(!n){const el=$('#sn');el.classList.add('bad');el.focus();return}
-  const sk={id:uid(),n,i:d.icon,c:d.color,m:0,at:Date.now(),desc:d.desc.trim(),items:[]};
+  const sk={id:uid(),n,i:d.icon,c:d.color,m:0,at:Date.now(),desc:d.desc.trim(),r:d.rate,items:[]};
   S.skills.unshift(sk);ui.draft=null;modal();persist();ui.focus=true;location.hash='skill-'+sk.id;
 }
 function addMicro(){
@@ -327,23 +367,38 @@ function addMicro(){
 }
 function addSub(el){
   const sk=cur(),r=sk&&find(sk.items,el.dataset.sub),v=el.value.trim();if(!r||!v)return;
-  r.i.c.push({id:uid(),t:v,d:false,c:[]});ui.add=r.i.id;ui.focus=r.i.id;changed(sk);
+  r.i.c.push({id:uid(),t:v,d:false,c:[]});r.i.x=false;ui.add=r.i.id;ui.focus=r.i.id;changed(sk);
+}
+
+/* rename: saves the open edit box (main skill title or any micro skill / step) */
+function commitEdit(){
+  const el=$('input[data-edit]'),sk=cur(),id=ui.edit;ui.edit=null;
+  if(!el||!sk)return;
+  const v=el.value.trim();if(!v)return;
+  if(id==='skill'){if(v!==sk.n){sk.n=v;persist()}}
+  else{const r=find(sk.items,id);if(r&&r.i.t!==v){r.i.t=v;persist()}}
 }
 
 /* events */
 document.addEventListener('click',e=>{
   /* clicking anywhere outside the open step input closes it */
   if(ui.add&&!e.target.closest('.addrow,[data-act="addc"]')){ui.add=null;render()}
+  const was=ui.edit;
+  if(ui.edit&&!e.target.closest('[data-edit]')){commitEdit();render()}
   const b=e.target.closest('[data-act],[data-icon],[data-color]');if(!b)return;
   if(b.dataset.icon){ui.draft.icon=b.dataset.icon;paint();return}
   if(b.dataset.color){ui.draft.color=b.dataset.color;paint();return}
   const a=b.dataset.act,id=b.dataset.id,sk=cur();
   if(a==='open')location.hash='skill-'+id;
-  else if(a==='new'){ui.draft={name:'',desc:'',icon:'code',color:'#2D8CF0'};modal();$('#sn').focus()}
+  else if(a==='new'){ui.draft={name:'',desc:'',icon:'code',color:'#2D8CF0',rate:0};modal();$('#sn').focus()}
   else if(a==='closem'){ui.draft=null;modal()}
   else if(a==='create')create();
   else if(a==='back')location.hash=sk&&sk.m?'mastered':'learning';
   else if(a==='addm')addMicro();
+  else if(a==='edit'&&sk){if(was!==id){ui.edit=id;ui.fe=true;render()}}
+  else if(a==='fold'&&sk){const r=find(sk.items,id);if(r){r.i.x=!r.i.x;persist();render()}}
+  else if(a==='focusm'){const el=$('input[data-add]');if(el){el.focus();el.scrollIntoView({block:'center',behavior:'smooth'})}}
+  else if(a==='rate'){const n=+b.dataset.n;if(b.closest('.sheet')){ui.draft.rate=ui.draft.rate===n?0:n;paint()}else if(sk){sk.r=sk.r===n?0:n;persist();render()}}
   else if(a==='addc'&&sk){
     const open=ui.add===id&&$('[data-sub="'+id+'"]');
     if(open)open.focus();else{ui.add=id;ui.focus=id;render()}
@@ -369,6 +424,17 @@ document.addEventListener('keydown',e=>{
   const t=e.target;
   if(e.key==='Escape'&&ui.draft){ui.draft=null;modal();return}
   if(t.id==='sn'&&e.key==='Enter'){create();return}
+  if(t.classList&&t.classList.contains('grip')&&(e.key==='ArrowUp'||e.key==='ArrowDown')){
+    e.preventDefault();
+    const el=t.closest('[data-sid]'),box=el.parentElement,up=e.key==='ArrowUp',sib=up?el.previousElementSibling:el.nextElementSibling;
+    if(sib){box.insertBefore(up?el:sib,up?sib:el);ui.fg=el.dataset.sid;applyOrder(box.dataset.list,sids(box))}
+    return;
+  }
+  if(t.matches&&t.matches('input[data-edit]')){
+    if(e.key==='Enter'&&!e.isComposing){commitEdit();render()}
+    else if(e.key==='Escape'){ui.edit=null;render()}
+    return;
+  }
   if(t.matches&&t.matches('input[data-add]')&&e.key==='Enter')addMicro();
   else if(t.matches&&t.matches('input[data-sub]')){if(e.key==='Escape'){ui.add=null;render()}else if(e.key==='Enter')addSub(t)}
 });
@@ -377,10 +443,55 @@ let pd=false;
 document.addEventListener('pointerdown',()=>{pd=true},true);
 ['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,()=>{pd=false},true));
 document.addEventListener('focusout',e=>{
-  const t=e.target;if(pd||!(t.matches&&t.matches('input[data-sub]')))return;
+  const t=e.target;
+  if(!pd&&t.matches&&t.matches('input[data-edit]')){setTimeout(()=>{if(ui.edit===t.dataset.edit&&!(document.activeElement&&document.activeElement.matches('input[data-edit]'))){commitEdit();render()}},0);return}
+  if(pd||!(t.matches&&t.matches('input[data-sub]')))return;
   setTimeout(()=>{const a=document.activeElement;if(ui.add===t.dataset.sub&&!(a&&a.matches('input[data-sub]'))){ui.add=null;render()}},0);
 });
-window.addEventListener('hashchange',()=>{ui.add=null;render();window.scrollTo(0,0)});
+/* drag to reorder: grab the dotted handle with a mouse or finger; works for skills and for steps inside the same list */
+let dg=null;
+const sids=box=>[...box.children].map(x=>x.dataset.sid).filter(Boolean);
+function applyOrder(list,ids){
+  if(list==='skills'){
+    const by=Object.fromEntries(S.skills.map(x=>[x.id,x])),slots=[];
+    S.skills.forEach((x,k)=>{if(!x.m)slots.push(k)});
+    const ord=ids.map(i=>by[i]).filter(Boolean);
+    if(ord.length===slots.length)slots.forEach((k,n)=>{S.skills[k]=ord[n]});
+  }else{
+    const sk=cur();if(!sk)return;
+    const arr=list==='root'?sk.items:(find(sk.items,list)||{i:{c:[]}}).i.c;
+    arr.sort((a,b)=>ids.indexOf(a.id)-ids.indexOf(b.id));
+  }
+  persist();render();
+}
+function place(){
+  const {el,box,x,y}=dg;
+  const hit=[...box.children].find(c=>{
+    if(c===el||!c.dataset.sid)return false;
+    const r=(c.querySelector(':scope>.row')||c).getBoundingClientRect();
+    return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
+  });
+  if(hit)box.insertBefore(el,el.compareDocumentPosition(hit)&Node.DOCUMENT_POSITION_FOLLOWING?hit.nextSibling:hit);
+}
+function tick(){
+  if(!dg)return;
+  if(dg.y<70)window.scrollBy(0,-14);else if(dg.y>innerHeight-70)window.scrollBy(0,14);
+  place();requestAnimationFrame(tick);
+}
+document.addEventListener('pointerdown',e=>{
+  const g=e.target.closest&&e.target.closest('.grip');if(!g||e.button>0)return;
+  const el=g.closest('[data-sid]');if(!el)return;
+  e.preventDefault();g.setPointerCapture(e.pointerId);
+  dg={el,box:el.parentElement,id:e.pointerId,x:e.clientX,y:e.clientY};
+  el.classList.add('drag');document.body.classList.add('dg');tick();
+});
+document.addEventListener('pointermove',e=>{if(dg&&e.pointerId===dg.id){dg.x=e.clientX;dg.y=e.clientY}});
+['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,e=>{
+  if(!dg||e.pointerId!==dg.id)return;
+  const {el,box}=dg;dg=null;el.classList.remove('drag');document.body.classList.remove('dg');
+  applyOrder(box.dataset.list,sids(box));
+}));
+window.addEventListener('hashchange',()=>{ui.add=null;ui.edit=null;render();window.scrollTo(0,0)});
 render();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
