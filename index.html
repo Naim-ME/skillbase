@@ -143,6 +143,9 @@ nav a b{font-weight:inherit}
 .lv.done .txt{color:var(--mut);text-decoration:line-through}
 .lvin{width:100%;margin-top:8px;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
 .lvin:focus{outline:none;border-color:var(--c)}
+.lvadd{display:flex;gap:8px;align-items:center;margin-top:8px}
+.lvadd .lvin{margin-top:0;flex:1;min-width:0}
+.lvplus{width:40px;height:40px;flex:none;display:grid;place-items:center;border-radius:12px;border:0;background:var(--ink);color:var(--bg);padding:0}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
 .seg button{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:none;font-size:13px;font-weight:500}
 .seg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -320,7 +323,7 @@ function cxBlock(sk){
   const opts=[['participation','Participation'],['rank','Rank'],['finalist','Finalist'],['custom','Custom']];
   return `<div class="cx"><div class="tg"><button class="pt${sk.pt?' on':''}" data-act="pt" role="checkbox" aria-checked="${!!sk.pt}" aria-label="Participated">${I.ck}</button><span>Participated</span><button class="cb${sk.ct?' on':''}" data-act="ct" role="checkbox" aria-checked="${!!sk.ct}" aria-label="Certificate">${sk.ct?I.ck:''}</button><span>Certificate</span></div>
     <p class="lb">Levels</p>${lv.map(x=>`<div class="lv${x.d?' done':''}"><button class="cb${x.d?' on':''}" data-act="lvtog" data-id="${x.id}" role="checkbox" aria-checked="${x.d}" aria-label="${esc(x.t)}">${x.d?I.ck:''}</button><span class="txt">${esc(x.t)}</span><button class="ib" data-act="lvdel" data-id="${x.id}" aria-label="Remove level ${esc(x.t)}">${I.t}</button></div>`).join('')}
-    <input class="lvin" data-lv maxlength="30" placeholder="Add a level, e.g. Prelims, Regional, Final" aria-label="Add level">
+    <div class="lvadd"><input class="lvin" data-lv maxlength="30" enterkeyhint="done" placeholder="Add a level, e.g. Prelims, Regional, Final" aria-label="Add level"><button class="lvplus" data-act="lvadd" aria-label="Add level">${I.p}</button></div>
     <p class="note">${lv.length?'Each level you clear adds an equal share of progress. Tasks no longer count.':'Without levels, tasks drive progress.'}</p>
     ${sk.m?`<p class="lb">Result</p><div class="seg">${opts.map(([v,n])=>`<button class="${R.t===v?'on':''}" data-act="res" data-t="${v}" aria-pressed="${R.t===v}">${n}</button>`).join('')}</div>${R.t==='rank'?`<input class="lvin" data-resv type="number" min="1" inputmode="numeric" placeholder="Rank, e.g. 2" value="${esc(R.v)}" aria-label="Rank">`:''}${R.t==='custom'?`<input class="lvin" data-resv maxlength="40" placeholder="Describe the result" value="${esc(R.v)}" aria-label="Custom result">`:''}`:''}</div>`;
 }
@@ -330,6 +333,11 @@ function ctx(){
   if(!sk){el.innerHTML='';return}
   const k=kind(sk),x=Math.max(8,Math.min(c.x,innerWidth-208)),y=Math.max(8,Math.min(c.y,innerHeight-170));
   el.innerHTML=`<div class="cscrim" data-act="closectx"></div><div class="ctx" role="menu" style="left:${x}px;top:${y}px"><p>Move “${esc(sk.n)}” to</p>${['s','p','c'].filter(m=>m!==k).map(m=>`<button role="menuitem" data-act="move" data-id="${sk.id}" data-k="${m}">${K[m].Cap}s</button>`).join('')}</div>`;
+}
+function addLevel(){
+  const el=$('input[data-lv]'),sk=cur();if(!el||!sk)return;
+  const v=el.value.trim();if(!v){el.focus();return}
+  (sk.lv=sk.lv||[]).push({id:uid(),t:v,d:false});ui.fl=true;changed(sk);
 }
 function moveTo(id,k){
   const sk=S.skills.find(x=>x.id===id);ui.ctx=null;ctx();
@@ -538,6 +546,7 @@ document.addEventListener('click',e=>{
   else if(a==='rate'){const n=+b.dataset.n;if(b.closest('.sheet')){ui.draft.rate=ui.draft.rate===n?0:n;paint()}else if(sk){sk.r=sk.r===n?0:n;persist();render()}}
   else if(a==='move')moveTo(id,b.dataset.k);
   else if(a==='closectx'){ui.ctx=null;ctx()}
+  else if(a==='lvadd')addLevel();
   else if(a==='pt'&&sk){sk.pt=!sk.pt;persist();render()}
   else if(a==='ct'&&sk){sk.ct=!sk.ct;persist();render()}
   else if(a==='lvtog'&&sk){const x=(sk.lv||[]).find(q=>q.id===id);if(x){x.d=!x.d;changed(sk)}}
@@ -580,7 +589,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&ui.draft){ui.draft=null;modal();return}
   if(t.id==='sn'&&e.key==='Enter'){create();return}
   if(t.matches&&t.matches('input[data-lv]')){
-    if(e.key==='Enter'&&!e.isComposing){const v=t.value.trim(),sk=cur();if(v&&sk){(sk.lv=sk.lv||[]).push({id:uid(),t:v,d:false});ui.fl=true;changed(sk)}}
+    if(e.key==='Enter'&&!e.isComposing)addLevel();
     return;
   }
   if(e.key==='Escape'&&ui.ctx){ui.ctx=null;ctx();return}

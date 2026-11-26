@@ -1,6 +1,9 @@
 # skillbase
 A minimalist tracker for skills, projects and competitions. Break anything into micro skills (or milestones, or tasks) with optional sub-steps, check them off, and watch your progress until it’s done. Installable offline PWA with no dependencies. Your data stays on your device.
 
+## Updates (v0.6.1)
+- Fixed a level addition bug.
+
 ## Updates (v0.6)
 - **Three sections.** A three-dot menu at the top right of the home page switches between Skills, Projects and Competitions, and the app remembers where you left off.
 - **Projects** work like skills but use milestones instead of micro skills. Their tabs are In progress and Completed.
