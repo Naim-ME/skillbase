@@ -1,5 +1,5 @@
 /* Bump VERSION whenever you change index.html so phones pick up the new copy. */
-const VERSION='skillbase-v0.4';
+const VERSION='skillbase-v0.6';
 const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png','./logo-mark.png','./logo-word.png','./favicon.png'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));

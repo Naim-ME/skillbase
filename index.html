@@ -101,7 +101,56 @@ h2{font-size:15px;margin-bottom:10px}
 .grip{display:grid;place-items:center;flex:none;border:0;background:none;color:var(--mut);cursor:grab;touch-action:none;padding:0;border-radius:6px;-webkit-user-select:none;user-select:none}
 .cw>.grip{width:20px;opacity:.6}
 .row .grip{width:14px;height:28px;margin-right:-4px}
-.drag{outline:2px dashed var(--c);outline-offset:2px;border-radius:10px;opacity:.7}
+.cw,.tree li{transition:scale .15s ease,box-shadow .15s ease}
+.drag{position:relative;z-index:5;scale:1.04;box-shadow:0 12px 28px rgba(0,0,0,.28);border-radius:12px;opacity:.97}
+li.drag{scale:1.02;background:var(--surf)}
+nav a b{font-weight:inherit}
+.mn{margin-left:auto;position:relative}
+.mn .round{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surf);display:grid;place-items:center;padding:0}
+.pop{position:absolute;right:0;top:calc(100% + 6px);min-width:170px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:30}
+.pop button{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:9px 10px;border:0;border-radius:8px;background:none;text-align:left;font-weight:500}
+.pop button:hover{background:var(--track)}
+.pop button.cur{font-weight:600}
+.pop{min-width:190px}
+.pop small{display:block;color:var(--mut);font-weight:400;font-size:11px}
+.head.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sortb{display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:99px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font-size:13px;font-weight:500}
+.dl{display:inline-block;margin-left:6px;padding:0 8px;border-radius:99px;font-size:11px;font-weight:600;line-height:18px;white-space:nowrap}
+.dl.ok{background:var(--track);color:var(--mut)}
+.dl.warn{background:#FFF0B3;color:#6B4B00}
+.dl.late{background:#FFDADA;color:#9C1C1C}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .dl.warn{background:#4D3C08;color:#FFD66B}:root:not([data-theme="light"]) .dl.late{background:#52202A;color:#FF9FA6}}
+:root[data-theme="dark"] .dl.warn{background:#4D3C08;color:#FFD66B}
+:root[data-theme="dark"] .dl.late{background:#52202A;color:#FF9FA6}
+.dlrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;color:var(--mut);font-size:12px}
+.dlrow label{display:flex;align-items:center;gap:8px}
+.dlrow .dl{margin-left:0;font-size:12px;line-height:22px}
+.dlin{padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:inherit}
+.dll{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card{-webkit-touch-callout:none}
+.card.cert{border-color:#fff;box-shadow:0 0 6px color-mix(in srgb,var(--c) 30%,#fff)}
+.card.cert:hover{border-color:#fff}
+.tr{display:flex;align-items:center;gap:6px;flex:none}
+.ptk{color:#22A06B;margin-left:6px;vertical-align:-2px}
+.rs{display:inline-block;margin-left:6px;padding:0 8px;border-radius:99px;font-size:11px;font-weight:600;line-height:18px;background:color-mix(in srgb,var(--c) 22%,var(--surf));color:var(--ink)}
+.cx{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:14px;margin:0 0 22px}
+.tg{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tg span{margin-right:12px}
+.pt{width:26px;height:26px;border-radius:50%;border:0;background:var(--track);color:#fff;display:grid;place-items:center;padding:0;transition:background .15s}
+.pt.on{background:#22A06B}
+.lb{margin:14px 0 6px;font-weight:600;color:var(--mut);font-size:13px}
+.lv{display:flex;align-items:center;gap:10px;padding:5px 0}
+.lv.done .txt{color:var(--mut);text-decoration:line-through}
+.lvin{width:100%;margin-top:8px;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.lvin:focus{outline:none;border-color:var(--c)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:none;font-size:13px;font-weight:500}
+.seg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cscrim{position:fixed;inset:0;z-index:59}
+.ctx{position:fixed;z-index:60;width:200px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:0 10px 28px rgba(0,0,0,.25)}
+.ctx p{margin:6px 10px 4px;font-size:12px;color:var(--mut);overflow-wrap:anywhere}
+.ctx button{display:block;width:100%;text-align:left;padding:9px 10px;border:0;border-radius:8px;background:none;font-weight:500}
+.ctx button:hover{background:var(--track)}
 body.dg,body.dg *{cursor:grabbing!important;-webkit-user-select:none;user-select:none}
 .acts{display:flex;gap:2px;align-items:center}
 .sub{opacity:0;transition:opacity .15s}
@@ -150,9 +199,10 @@ body.dg,body.dg *{cursor:grabbing!important;-webkit-user-select:none;user-select
 <body>
 <main id="app"></main>
 <button id="fab" class="primary" data-act="new" aria-label="New skill" title="New skill" hidden></button>
-<nav aria-label="Sections"><a href="#learning" id="n1">Learning<span id="nl"></span></a><a href="#mastered" id="n2">Mastered<span id="nm"></span></a></nav>
+<nav aria-label="Sections"><a href="#learning" id="n1"><b id="t1">Learning</b><span id="nl"></span></a><a href="#mastered" id="n2"><b id="t2">Mastered</b><span id="nm"></span></a></nav>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="modal"></div>
+<div id="ctx"></div>
 <script>
 /* icons (24x24 line paths) */
 const ICONS={
@@ -227,11 +277,11 @@ const ico=(k,s=18)=>svg(ICONS[k]||ICONS.code,s,1.75);
 const I={ck:svg('M5 12.5l4.5 4.5L19 7.5',13,3),p:svg('M12 5v14M5 12h14',18),x:svg('M6 6l12 12M18 6L6 18',15),b:svg('M15 5l-7 7 7 7',18),t:svg('M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3',16),e:svg(ICONS.pen,16),cd:svg('M6 9l6 6 6-6',16),cr:svg('M9 6l6 6-6 6',16)};
 
 let S={skills:[],t:0},dbDoc=null,saveT,tt;
-const ui={focus:false,draft:null,add:null,edit:null,fe:false,fg:null};
+const ui={focus:false,draft:null,add:null,edit:null,fe:false,fg:null,menu:false,fl:false,ctx:null};
 
 /* normalize saved data: nested micro skills, tech icon keys, description */
 const fix=a=>(a||[]).map(i=>({id:i.id,t:i.t,d:!!i.d,x:!!i.x,c:fix(i.c)}));
-function norm(){S.skills=(S.skills||[]).map(s=>({...s,items:fix(s.items),i:ICONS[s.i]?s.i:'code',desc:s.desc||'',r:[1,2,3,4,5].includes(s.r)?s.r:0}))}
+function norm(){S.mode=['p','c'].includes(S.mode)?S.mode:'s';S.sort=S.sort&&typeof S.sort==='object'?S.sort:{};S.skills=(S.skills||[]).map(s=>({...s,k:['p','c'].includes(s.k)?s.k:'s',dl:/^\d{4}-\d{2}-\d{2}$/.test(s.dl)?s.dl:'',lv:Array.isArray(s.lv)?s.lv.map(x=>({id:x.id||Math.random().toString(36).slice(2,8),t:String(x.t||''),d:!!x.d})):[],pt:!!s.pt,ct:!!s.ct,res:s.res&&typeof s.res==='object'?{t:String(s.res.t||''),v:String(s.res.v||'')}:{t:'',v:''},items:fix(s.items),i:ICONS[s.i]?s.i:'code',desc:s.desc||'',r:[1,2,3,4,5].includes(s.r)?s.r:0}))}
 try{const j=localStorage.getItem(KEY)||localStorage.getItem('skillwise:v1');if(j)S=JSON.parse(j)}catch(e){}
 norm();
 
@@ -255,7 +305,85 @@ const setAll=(a,v)=>a.forEach(i=>{i.d=v;setAll(i.c,v)});
 function sync(a){for(const i of a)if(i.c.length){sync(i.c);i.d=i.c.every(k=>k.d)}}
 /* each micro skill gets an equal share of 100%; the steps inside it split that share equally, at any depth */
 const share=a=>a.length?a.reduce((s,i)=>s+(i.c.length?share(i.c):(i.d?1:0)),0)/a.length:0;
-const pctOf=sk=>Math.round(share(sk.items)*100);
+const lvOn=sk=>kind(sk)==='c'&&Array.isArray(sk.lv)&&sk.lv.length>0;
+const pctOf=sk=>lvOn(sk)?Math.round(sk.lv.filter(x=>x.d).length/sk.lv.length*100):Math.round(share(sk.items)*100);
+const pcount=sk=>lvOn(sk)?[sk.lv.filter(x=>x.d).length,sk.lv.length]:[sk.items.filter(i=>i.d).length,sk.items.length];
+/* competition extras: participated badge, result chip, and the block with levels, result, participated and certificate */
+const pbadge=sk=>kind(sk)==='c'&&sk.pt?`<svg class="ptk" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Participated"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`:'';
+function resChip(sk){
+  const R=sk.res;if(kind(sk)!=='c'||!sk.m||!R||!R.t)return '';
+  const t=R.t==='rank'?'Rank'+(R.v?' '+R.v:''):R.t==='custom'?(R.v||'Custom'):R.t==='finalist'?'Finalist':'Participation';
+  return `<span class="rs">${esc(t)}</span>`;
+}
+function cxBlock(sk){
+  const R=sk.res||{t:'',v:''},lv=sk.lv||[];
+  const opts=[['participation','Participation'],['rank','Rank'],['finalist','Finalist'],['custom','Custom']];
+  return `<div class="cx"><div class="tg"><button class="pt${sk.pt?' on':''}" data-act="pt" role="checkbox" aria-checked="${!!sk.pt}" aria-label="Participated">${I.ck}</button><span>Participated</span><button class="cb${sk.ct?' on':''}" data-act="ct" role="checkbox" aria-checked="${!!sk.ct}" aria-label="Certificate">${sk.ct?I.ck:''}</button><span>Certificate</span></div>
+    <p class="lb">Levels</p>${lv.map(x=>`<div class="lv${x.d?' done':''}"><button class="cb${x.d?' on':''}" data-act="lvtog" data-id="${x.id}" role="checkbox" aria-checked="${x.d}" aria-label="${esc(x.t)}">${x.d?I.ck:''}</button><span class="txt">${esc(x.t)}</span><button class="ib" data-act="lvdel" data-id="${x.id}" aria-label="Remove level ${esc(x.t)}">${I.t}</button></div>`).join('')}
+    <input class="lvin" data-lv maxlength="30" placeholder="Add a level, e.g. Prelims, Regional, Final" aria-label="Add level">
+    <p class="note">${lv.length?'Each level you clear adds an equal share of progress. Tasks no longer count.':'Without levels, tasks drive progress.'}</p>
+    ${sk.m?`<p class="lb">Result</p><div class="seg">${opts.map(([v,n])=>`<button class="${R.t===v?'on':''}" data-act="res" data-t="${v}" aria-pressed="${R.t===v}">${n}</button>`).join('')}</div>${R.t==='rank'?`<input class="lvin" data-resv type="number" min="1" inputmode="numeric" placeholder="Rank, e.g. 2" value="${esc(R.v)}" aria-label="Rank">`:''}${R.t==='custom'?`<input class="lvin" data-resv maxlength="40" placeholder="Describe the result" value="${esc(R.v)}" aria-label="Custom result">`:''}`:''}</div>`;
+}
+/* move between skills, projects and competitions (right click, or long press on touch) */
+function ctx(){
+  const c=ui.ctx,el=$('#ctx'),sk=c&&S.skills.find(x=>x.id===c.id);
+  if(!sk){el.innerHTML='';return}
+  const k=kind(sk),x=Math.max(8,Math.min(c.x,innerWidth-208)),y=Math.max(8,Math.min(c.y,innerHeight-170));
+  el.innerHTML=`<div class="cscrim" data-act="closectx"></div><div class="ctx" role="menu" style="left:${x}px;top:${y}px"><p>Move “${esc(sk.n)}” to</p>${['s','p','c'].filter(m=>m!==k).map(m=>`<button role="menuitem" data-act="move" data-id="${sk.id}" data-k="${m}">${K[m].Cap}s</button>`).join('')}</div>`;
+}
+function moveTo(id,k){
+  const sk=S.skills.find(x=>x.id===id);ui.ctx=null;ctx();
+  if(!sk||!K[k]||kind(sk)===k)return;
+  const snap=JSON.stringify(sk);
+  sk.k=k;if(k!=='c')sk.dl='';
+  changed(sk);
+  toast('Moved “'+sk.n+'” to '+K[k].Cap+'s'+(k==='c'?'. Add a deadline from its page.':''),()=>{const o=JSON.parse(snap);Object.keys(sk).forEach(q=>delete sk[q]);Object.assign(sk,o);persist();render()});
+}
+/* two modes share one list: skills (micro skills) and projects (milestones) */
+const K={
+  s:{one:'skill',Cap:'Skill',many:'skills',mic:'micro skill',Mic:'Micro skill',tab1:'Learning',tab2:'Mastered',doing:'in progress',done:'mastered',Done:'Mastered',ph:'What are you learning?'},
+  p:{one:'project',Cap:'Project',many:'projects',mic:'milestone',Mic:'Milestone',tab1:'Projects in progress',tab2:'Completed',doing:'in progress',done:'completed',Done:'Completed',ph:'What are you building?'},
+  c:{one:'competition',Cap:'Competition',many:'competitions',mic:'task',Mic:'Task',tab1:'Active competitions',tab2:'Completed',doing:'active',done:'completed',Done:'Completed',ph:'Which competition is it?'}
+};
+const kind=sk=>sk.k==='p'||sk.k==='c'?sk.k:'s';
+const mk=()=>K[S.mode]?S.mode:'s';
+const md=()=>K[mk()];
+const inMode=()=>S.skills.filter(x=>kind(x)===mk());
+/* competitions finish by date: the day after the deadline they move to Completed, with their tasks left as they were */
+function settleComp(){
+  let ch=false;
+  for(const x of S.skills){
+    if(kind(x)!=='c'||!x.dl)continue;
+    const n=dleft(x.dl);
+    if(n<0&&!x.m){const [y,mo,d]=x.dl.split('-').map(Number);x.m=new Date(y,mo-1,d+1).getTime();ch=true}
+    else if(n>=0&&x.m){x.m=0;ch=true}
+  }
+  if(ch)persist();
+  return ch;
+}
+/* competitions: days left until the deadline (grey, then yellow within 7 days, red within 3 or overdue) */
+const dleft=dl=>{const [y,m,d]=dl.split('-').map(Number),t=new Date();return Math.round((new Date(y,m-1,d)-new Date(t.getFullYear(),t.getMonth(),t.getDate()))/864e5)};
+const dpill=sk=>{
+  if(kind(sk)!=='c'||sk.m||!sk.dl)return '';
+  const n=dleft(sk.dl),cls=n<=3?'late':n<=7?'warn':'ok';
+  const txt=n<0?(-n)+(n===-1?' day':' days')+' overdue':n===0?'Due today':n===1?'1 day left':n+' days left';
+  return `<span class="dl ${cls}">${txt}</span>`;
+};
+/* sorting the in-progress list: custom is your own drag order; the others sort a view of it (ties keep your order) */
+const SORTS={s:['priority','custom'],p:['priority','custom'],c:['deadline','priority','custom']};
+const SL={deadline:'Deadline',priority:'Priority',custom:'Custom'};
+const SH={deadline:'Soonest first',priority:'Most stars first',custom:'Your own drag order'};
+const sortOf=()=>{const v=(S.sort||{})[mk()];return SORTS[mk()].includes(v)?v:'custom'};
+function ordered(l){
+  const m=sortOf();if(m==='custom')return l;
+  const pr=x=>x.r||0,dv=x=>x.dl?dleft(x.dl):1e9;
+  return l.map((x,i)=>[x,i]).sort((a,b)=>m==='priority'?(pr(b[0])-pr(a[0])||a[1]-b[1]):(dv(a[0])-dv(b[0])||a[1]-b[1])).map(q=>q[0]);
+}
+const sortUI=()=>{
+  const c=sortOf();
+  return `<div class="mn"><button class="sortb" data-act="sortm" aria-haspopup="menu" aria-expanded="${ui.menu==='sort'}" aria-label="Sort by: ${SL[c]}">${svg('M4 6h16M7 12h10M10 18h4',16)}<span>${SL[c]}</span></button>${ui.menu==='sort'?`<div class="pop" role="menu">${SORTS[mk()].map(v=>`<button role="menuitemradio" aria-checked="${v===c}" data-act="sort" data-v="${v}" class="${v===c?'cur':''}"><span>${SL[v]}<small>${SH[v]}</small></span>${v===c?I.ck:''}</button>`).join('')}</div>`:''}</div>`;
+};
+const DOTS='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>';
 /* priority stars (1 to 5, tap the same star again to clear) and the drag handle */
 const STAR='M12 2.7l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17l-5.7 3.2 1.2-6.4L2.8 9.4l6.4-.8z';
 const GRIP='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.7"/><circle cx="15" cy="6" r="1.7"/><circle cx="9" cy="12" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="9" cy="18" r="1.7"/><circle cx="15" cy="18" r="1.7"/></svg>';
@@ -263,8 +391,8 @@ const star=(on,z)=>`<svg class="sv${on?' on':''}" viewBox="0 0 24 24" width="${z
 const stars=n=>`<span class="stars" role="img" aria-label="Priority ${n||0} of 5">`+[1,2,3,4,5].map(k=>star(k<=n,12)).join('')+'</span>';
 const rater=n=>'<span class="rate" role="group" aria-label="Priority">'+[1,2,3,4,5].map(k=>`<button class="st${k<=n?' on':''}" data-act="rate" data-n="${k}" aria-label="${k} star${k>1?'s':''}" aria-pressed="${k===n}">${star(k<=n,24)}</button>`).join('')+'</span>';
 function changed(sk){
-  sync(sk.items);const [d,t]=count(sk.items);
-  if(t&&d===t){if(!sk.m){sk.m=Date.now();toast('Mastered “'+sk.n+'”. Nice work.')}}else sk.m=0;
+  sync(sk.items);const [d,t]=lvOn(sk)?pcount(sk):count(sk.items);
+  if(!(kind(sk)==='c'&&sk.dl)){if(t&&d===t){if(!sk.m){sk.m=Date.now();toast(K[kind(sk)].Done+' “'+sk.n+'”. Nice work.')}}else sk.m=0}
   persist();render();
 }
 const cur=()=>{const h=location.hash.slice(1);return h.startsWith('skill-')?S.skills.find(s=>s.id===h.slice(6)):null};
@@ -279,38 +407,40 @@ function toast(m,undo){
 /* views */
 const tile=(sk,big)=>`<span class="tile${big?' big':''}" style="--c:${sk.c}">${ico(sk.i,big?22:18)}</span>`;
 function card(sk){
-  const t=sk.items.length,d=sk.items.filter(i=>i.d).length,p=pctOf(sk);
-  const l=sk.m?'Mastered on '+fmt(sk.m):(t?d+' of '+t+' micro skills':'No micro skills yet');
-  const r=sk.m?t+' micro skills':p+'%';
-  return `<button class="card" data-act="open" data-id="${sk.id}" style="--c:${sk.c}">${tile(sk)}<span class="cm"><span class="top"><b>${esc(sk.n)}</b>${stars(sk.r)}</span>${sk.desc?`<span class="dsc">${esc(sk.desc)}</span>`:''}<span class="meta"><span>${l}</span><span>${r}</span></span><span class="bar" style="display:block"><i style="width:${sk.m?100:p}%"></i></span></span></button>`;
+  const [d,t]=pcount(sk),p=pctOf(sk);
+  const T=K[kind(sk)],W=lvOn(sk)?'level':T.mic,l=sk.m?T.Done+' on '+fmt(sk.m):(t?d+' of '+t+' '+W+'s':'No '+T.mic+'s yet');
+  const r=sk.m?(kind(sk)==='c'?(t?d+' of '+t+' '+W+'s':'No '+T.mic+'s'):t+' '+T.mic+'s'):p+'%';
+  return `<button class="card${kind(sk)==='c'&&sk.ct?' cert':''}" data-act="open" data-id="${sk.id}" style="--c:${sk.c}">${tile(sk)}<span class="cm"><span class="top"><b>${esc(sk.n)}${pbadge(sk)}</b><span class="tr">${stars(sk.r)}</span></span>${sk.desc?`<span class="dsc">${esc(sk.desc)}</span>`:''}<span class="meta"><span>${l}${dpill(sk)}${resChip(sk)}</span><span>${r}</span></span><span class="bar" style="display:block"><i style="width:${kind(sk)==='c'?p:sk.m?100:p}%"></i></span></span></button>`;
 }
-const cw=sk=>`<div class="cw" data-sid="${sk.id}"><button class="grip" aria-label="Reorder ${esc(sk.n)}: drag, or press the arrow keys" title="Drag to reorder">${GRIP}</button>${card(sk)}</div>`;
-const brand=()=>`<div class="brand"><img class="mk" src="logo-mark.png" alt="" width="34" height="40"><span class="wm" role="img" aria-label="Skillbase"></span></div>`;
+const cw=(sk,g)=>`<div class="cw" data-sid="${sk.id}">${g?`<button class="grip" aria-label="Reorder ${esc(sk.n)}: drag, or press the arrow keys" title="Drag to reorder">${GRIP}</button>`:''}${card(sk)}</div>`;
+const menu=()=>`<div class="mn"><button class="round" data-act="menu" aria-label="Switch between skills, projects and competitions" aria-haspopup="menu" aria-expanded="${ui.menu==='mode'}">${DOTS}</button>${ui.menu==='mode'?`<div class="pop" role="menu">${['s','p','c'].map(m=>{const on=mk()===m;return `<button role="menuitemradio" aria-checked="${on}" data-act="mode" data-m="${m}" class="${on?'cur':''}"><span>${K[m].Cap}s</span>${on?I.ck:''}</button>`}).join('')}</div>`:''}</div>`;
+const brand=()=>`<div class="brand"><img class="mk" src="logo-mark.png" alt="" width="34" height="40"><span class="wm" role="img" aria-label="Skillbase"></span>${menu()}</div>`;
 function learning(){
-  const l=S.skills.filter(s=>!s.m),n=l.length;
-  return brand()+`<header class="head"><h1>Learning</h1><p>${n?n+' skill'+(n>1?'s':'')+' in progress':'Nothing in progress yet'}</p></header>`+
-  (n?`<div class="list" data-list="skills">${l.map(cw).join('')}</div>`:`<div class="empty"><b>Start with one skill</b><p>Pick an icon and a color, then add micro skills you can check off.</p><button class="primary" data-act="new">New skill</button></div>`);
+  const T=md(),l=ordered(inMode().filter(s=>!s.m)),n=l.length,dr=sortOf()==='custom';
+  return brand()+`<header class="head hd"><div><h1>${T.tab1}</h1><p>${n?n+' '+(n>1?T.many:T.one):'None yet'}</p></div>${n>1?sortUI():''}</header>`+
+  (n?`<div class="list" data-list="skills">${l.map(x=>cw(x,dr)).join('')}</div>`:`<div class="empty"><b>Start with one ${T.one}</b><p>Pick an icon and a color, then add ${T.mic}s you can check off.</p><button class="primary" data-act="new">New ${T.one}</button></div>`);
 }
 function mastered(){
-  const l=S.skills.filter(s=>s.m).sort((a,b)=>b.m-a.m),n=l.length;
-  return brand()+`<header class="head"><h1>Mastered</h1><p>${n?n+' skill'+(n>1?'s':'')+' mastered':'Your finished skills will live here'}</p></header>`+
-  (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Nothing mastered yet</b><p>Check off every micro skill in a skill and it moves here automatically.</p></div>`);
+  const T=md(),l=inMode().filter(s=>s.m).sort((a,b)=>b.m-a.m),n=l.length;
+  return brand()+`<header class="head"><h1>${T.tab2}</h1><p>${n?n+' '+(n>1?T.many:T.one)+' '+T.done:'Your finished '+T.many+' will live here'}</p></header>`+
+  (n?`<div class="list">${l.map(card).join('')}</div>`:`<div class="empty"><b>Nothing ${T.done} yet</b><p>${mk()==='c'?'A competition moves here the day after its deadline.':`Check off every ${T.mic} in a ${T.one} and it moves here automatically.`}</p></div>`);
 }
 function detail(sk){
-  const t=sk.items.length,d=sk.items.filter(i=>i.d).length,p=pctOf(sk);
+  const T=K[kind(sk)],[d,t]=pcount(sk),p=pctOf(sk);
   return `<section class="dt" style="--c:${sk.c}">
     <button class="round corner l" data-act="back" aria-label="Back">${I.b}</button>
-    <div class="corner r grp"><button class="round" data-act="edit" data-id="skill" aria-label="Rename skill">${I.e}</button><button class="round" data-act="focusm" aria-label="Add micro skill">${I.p}</button><button class="round" data-act="delskill" aria-label="Delete skill">${I.t}</button></div>
+    <div class="corner r grp"><button class="round" data-act="edit" data-id="skill" aria-label="Rename ${T.one}">${I.e}</button><button class="round" data-act="focusm" aria-label="Add ${T.mic}">${I.p}</button><button class="round" data-act="delskill" aria-label="Delete ${T.one}">${I.t}</button></div>
     <div class="hero"><div class="rrow">${rater(sk.r)}</div>
-      <div class="who">${tile(sk,1)}${ui.edit==='skill'?`<input class="ed" data-edit="skill" maxlength="40" value="${esc(sk.n)}" aria-label="Rename skill">`:`<h1>${esc(sk.n)}</h1>`}</div>
-      <textarea class="desc" data-desc rows="1" maxlength="240" placeholder="Add a description" aria-label="Skill description">${esc(sk.desc)}</textarea>
-      <div class="nums"><div class="pct">${p}<small>%</small></div><span>${sk.m?'Mastered on '+fmt(sk.m):(t?d+' of '+t+' done':'No micro skills yet')}</span></div>
+      <div class="who">${tile(sk,1)}${ui.edit==='skill'?`<input class="ed" data-edit="skill" maxlength="40" value="${esc(sk.n)}" aria-label="Rename ${T.one}">`:`<h1>${esc(sk.n)}</h1>`}</div>
+      <textarea class="desc" data-desc rows="1" maxlength="240" placeholder="Add a description" aria-label="${T.Cap} description">${esc(sk.desc)}</textarea>
+      ${kind(sk)==='c'?`<div class="dlrow"><label>Deadline<input class="dlin" type="date" data-dl value="${esc(sk.dl||'')}" aria-label="Deadline"></label>${dpill(sk)}</div>`:''}
+      <div class="nums"><div class="pct">${p}<small>%</small></div><span>${sk.m?T.Done+' on '+fmt(sk.m)+(kind(sk)==='c'&&t?', '+d+' of '+t+' done':''):(t?d+' of '+t+' done':'No '+T.mic+'s yet')}</span></div>
       <div class="bar"><i style="width:${p}%"></i></div>
     </div>
     <div>
-      <h2>Micro skills</h2>
-      <div class="add"><input data-add maxlength="80" placeholder="Micro skill name" aria-label="Micro skill name"><button class="ib" data-act="addm" aria-label="Add micro skill">${I.p}</button></div>
-      ${t?tree(sk.items):`<p class="note">Type a name above and press Enter.</p>`}
+      ${kind(sk)==='c'?cxBlock(sk):''}<h2>${T.Mic}s</h2>
+      <div class="add"><input data-add maxlength="80" placeholder="${T.Mic} name" aria-label="${T.Mic} name"><button class="ib" data-act="addm" aria-label="Add ${T.mic}">${I.p}</button></div>
+      ${sk.items.length?tree(sk.items):`<p class="note">Type a name above and press Enter.</p>`}
     </div>
   </section>`;
 }
@@ -322,29 +452,34 @@ function tree(a,pid='root'){
 }
 const grow=el=>{el.style.height='auto';el.style.height=el.scrollHeight+'px'};
 function render(){
+  settleComp();
   const h=location.hash.slice(1)||'learning',sk=cur();
   if(h.startsWith('skill-')&&!sk){location.hash='learning';return}
+  if(sk)S.mode=kind(sk);
   const tab=sk?(sk.m?'mastered':'learning'):(h==='mastered'?'mastered':'learning');
   $('#n1').classList.toggle('on',tab==='learning');$('#n2').classList.toggle('on',tab==='mastered');
-  $('#nl').textContent=S.skills.filter(s=>!s.m).length||'';$('#nm').textContent=S.skills.filter(s=>s.m).length||'';
-  const fab=$('#fab');fab.hidden=!!sk||h==='mastered';fab.innerHTML=I.p;
+  const T=md(),L=inMode();$('#t1').textContent=T.tab1;$('#t2').textContent=T.tab2;
+  $('#nl').textContent=L.filter(s=>!s.m).length||'';$('#nm').textContent=L.filter(s=>s.m).length||'';
+  const fab=$('#fab');fab.hidden=!!sk||h==='mastered';fab.innerHTML=I.p;fab.setAttribute('aria-label','New '+T.one);fab.title='New '+T.one;
   $('#app').innerHTML=sk?detail(sk):h==='mastered'?mastered():learning();
   document.querySelectorAll('.desc').forEach(grow);
   if(ui.focus){const el=ui.focus===true?$('input[data-add]'):$('[data-sub="'+ui.focus+'"]');if(el)el.focus();ui.focus=false}
   if(ui.fe){const el=$('input[data-edit]');if(el){el.focus();el.select()}ui.fe=false}
   if(ui.fg){const g=$('[data-sid="'+ui.fg+'"] .grip');if(g)g.focus();ui.fg=null}
+  if(ui.fl){const el=$('input[data-lv]');if(el)el.focus();ui.fl=false}
 }
 
 /* new skill sheet: built once; icon and color changes update it in place (no re-render) */
 function modal(){
-  const d=ui.draft,m=$('#modal');
-  m.innerHTML=d?`<div class="scrim" data-act="closem"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="New skill" style="--c:${d.color}">
-    <h2>New skill</h2>
-    <div class="prev"><span class="tile big">${ico(d.icon,22)}</span><input id="sn" maxlength="40" placeholder="What are you learning?" value="${esc(d.name)}"></div>
+  const d=ui.draft,m=$('#modal'),T=md();
+  m.innerHTML=d?`<div class="scrim" data-act="closem"></div><div class="sheet" role="dialog" aria-modal="true" aria-label="New ${T.one}" style="--c:${d.color}">
+    <h2>New ${T.one}</h2>
+    <div class="prev"><span class="tile big">${ico(d.icon,22)}</span><input id="sn" maxlength="40" placeholder="${T.ph}" value="${esc(d.name)}"></div>
     <textarea id="sd" rows="2" maxlength="240" placeholder="Description (optional)">${esc(d.desc)}</textarea>
+    ${mk()==='c'?`<label class="lbl dll">Deadline<input class="dlin" id="sdl" type="date" value="${esc(d.dl||'')}"></label>`:''}
     <p class="lbl">Priority</p>${rater(d.rate)}<p class="lbl">Icon</p><div class="grid">${Object.keys(ICONS).map(k=>`<button class="pick${k===d.icon?' sel':''}" data-icon="${k}" aria-label="${k}" title="${k}">${ico(k,18)}</button>`).join('')}</div>
     <p class="lbl">Color</p><div class="sw">${COLORS.map(c=>`<button class="dot${c===d.color?' sel':''}" data-color="${c}" style="--c:${c}" aria-label="Color ${c}"></button>`).join('')}</div>
-    <div class="act"><button class="ghost" data-act="closem">Cancel</button><button class="primary" data-act="create">Create skill</button></div></div>`:'';
+    <div class="act"><button class="ghost" data-act="closem">Cancel</button><button class="primary" data-act="create">Create ${T.one}</button></div></div>`:'';
 }
 function paint(){
   const d=ui.draft,s=$('.sheet');if(!s)return;
@@ -357,7 +492,7 @@ function paint(){
 function create(){
   const d=ui.draft,n=d.name.trim();
   if(!n){const el=$('#sn');el.classList.add('bad');el.focus();return}
-  const sk={id:uid(),n,i:d.icon,c:d.color,m:0,at:Date.now(),desc:d.desc.trim(),r:d.rate,items:[]};
+  const sk={id:uid(),n,k:mk(),dl:d.dl||'',i:d.icon,c:d.color,m:0,at:Date.now(),desc:d.desc.trim(),r:d.rate,items:[]};
   S.skills.unshift(sk);ui.draft=null;modal();persist();ui.focus=true;location.hash='skill-'+sk.id;
 }
 function addMicro(){
@@ -383,6 +518,8 @@ function commitEdit(){
 document.addEventListener('click',e=>{
   /* clicking anywhere outside the open step input closes it */
   if(ui.add&&!e.target.closest('.addrow,[data-act="addc"]')){ui.add=null;render()}
+  if(lpFired){lpFired=false;return}
+  if(ui.menu&&!e.target.closest('.mn')){ui.menu=false;render()}
   const was=ui.edit;
   if(ui.edit&&!e.target.closest('[data-edit]')){commitEdit();render()}
   const b=e.target.closest('[data-act],[data-icon],[data-color]');if(!b)return;
@@ -399,6 +536,17 @@ document.addEventListener('click',e=>{
   else if(a==='fold'&&sk){const r=find(sk.items,id);if(r){r.i.x=!r.i.x;persist();render()}}
   else if(a==='focusm'){const el=$('input[data-add]');if(el){el.focus();el.scrollIntoView({block:'center',behavior:'smooth'})}}
   else if(a==='rate'){const n=+b.dataset.n;if(b.closest('.sheet')){ui.draft.rate=ui.draft.rate===n?0:n;paint()}else if(sk){sk.r=sk.r===n?0:n;persist();render()}}
+  else if(a==='move')moveTo(id,b.dataset.k);
+  else if(a==='closectx'){ui.ctx=null;ctx()}
+  else if(a==='pt'&&sk){sk.pt=!sk.pt;persist();render()}
+  else if(a==='ct'&&sk){sk.ct=!sk.ct;persist();render()}
+  else if(a==='lvtog'&&sk){const x=(sk.lv||[]).find(q=>q.id===id);if(x){x.d=!x.d;changed(sk)}}
+  else if(a==='lvdel'&&sk){sk.lv=(sk.lv||[]).filter(q=>q.id!==id);changed(sk)}
+  else if(a==='res'&&sk){const v=b.dataset.t;sk.res=sk.res&&sk.res.t===v?{t:'',v:''}:{t:v,v:''};persist();render()}
+  else if(a==='menu'){ui.menu=ui.menu==='mode'?false:'mode';render()}
+  else if(a==='sortm'){ui.menu=ui.menu==='sort'?false:'sort';render()}
+  else if(a==='sort'){if(SORTS[mk()].includes(b.dataset.v)){S.sort={...(S.sort||{}),[mk()]:b.dataset.v};persist()}ui.menu=false;render()}
+  else if(a==='mode'){S.mode=K[b.dataset.m]?b.dataset.m:'s';ui.menu=false;persist();render()}
   else if(a==='addc'&&sk){
     const open=ui.add===id&&$('[data-sub="'+id+'"]');
     if(open)open.focus();else{ui.add=id;ui.focus=id;render()}
@@ -414,16 +562,29 @@ document.addEventListener('click',e=>{
     toast('Deleted “'+sk.n+'”',()=>{S.skills.splice(idx,0,sk);persist();render()});
   }
 });
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='sdl'&&ui.draft)ui.draft.dl=t.value;
+  else if(t.matches&&t.matches('input[data-dl]')){const sk=cur();if(sk){sk.dl=t.value;changed(sk)}}
+  else if(t.matches&&t.matches('input[data-resv]')){const sk=cur();if(sk){sk.res=sk.res||{t:'',v:''};sk.res.v=t.value;persist()}}
+});
 document.addEventListener('input',e=>{
   const t=e.target;
   if(t.id==='sn'){ui.draft.name=t.value;t.classList.remove('bad')}
   else if(t.id==='sd')ui.draft.desc=t.value;
+  else if(t.id==='sdl')ui.draft.dl=t.value;
   else if(t.matches&&t.matches('[data-desc]')){const sk=cur();if(sk){sk.desc=t.value;persist()}grow(t)}
 });
 document.addEventListener('keydown',e=>{
   const t=e.target;
   if(e.key==='Escape'&&ui.draft){ui.draft=null;modal();return}
   if(t.id==='sn'&&e.key==='Enter'){create();return}
+  if(t.matches&&t.matches('input[data-lv]')){
+    if(e.key==='Enter'&&!e.isComposing){const v=t.value.trim(),sk=cur();if(v&&sk){(sk.lv=sk.lv||[]).push({id:uid(),t:v,d:false});ui.fl=true;changed(sk)}}
+    return;
+  }
+  if(e.key==='Escape'&&ui.ctx){ui.ctx=null;ctx();return}
+  if(e.key==='Escape'&&ui.menu){ui.menu=false;render();return}
   if(t.classList&&t.classList.contains('grip')&&(e.key==='ArrowUp'||e.key==='ArrowDown')){
     e.preventDefault();
     const el=t.closest('[data-sid]'),box=el.parentElement,up=e.key==='ArrowUp',sib=up?el.previousElementSibling:el.nextElementSibling;
@@ -451,10 +612,10 @@ document.addEventListener('focusout',e=>{
 /* drag to reorder: grab the dotted handle with a mouse or finger; works for skills and for steps inside the same list */
 let dg=null;
 const sids=box=>[...box.children].map(x=>x.dataset.sid).filter(Boolean);
-function applyOrder(list,ids){
+function applyOrder(list,ids,keep){
   if(list==='skills'){
     const by=Object.fromEntries(S.skills.map(x=>[x.id,x])),slots=[];
-    S.skills.forEach((x,k)=>{if(!x.m)slots.push(k)});
+    S.skills.forEach((x,k)=>{if(!x.m&&kind(x)===mk())slots.push(k)});
     const ord=ids.map(i=>by[i]).filter(Boolean);
     if(ord.length===slots.length)slots.forEach((k,n)=>{S.skills[k]=ord[n]});
   }else{
@@ -462,36 +623,85 @@ function applyOrder(list,ids){
     const arr=list==='root'?sk.items:(find(sk.items,list)||{i:{c:[]}}).i.c;
     arr.sort((a,b)=>ids.indexOf(a.id)-ids.indexOf(b.id));
   }
-  persist();render();
+  persist();if(!keep)render();
+}
+/* layout box of a list item, ignoring any slide animation still running on it */
+function lbox(c){
+  const r=(c.querySelector(':scope>.row')||c).getBoundingClientRect(),t=getComputedStyle(c).transform,m=t==='none'?{m41:0,m42:0}:new DOMMatrixReadOnly(t);
+  return{left:r.left-m.m41,right:r.right-m.m41,top:r.top-m.m42,bottom:r.bottom-m.m42};
+}
+/* move the dragged item in the list, then slide every other item from where it was to where it is now */
+function slide(box,el,fn){
+  const kids=[...box.children].filter(c=>c!==el&&c.dataset.sid),was=kids.map(c=>c.getBoundingClientRect());
+  fn();
+  kids.forEach(c=>{c.style.transition='none';c.style.transform='none'});
+  const now=kids.map(c=>c.getBoundingClientRect());
+  kids.forEach((c,i)=>{const dx=was[i].left-now[i].left,dy=was[i].top-now[i].top;if(dx||dy)c.style.transform='translate('+dx+'px,'+dy+'px)'});
+  box.getBoundingClientRect();
+  kids.forEach(c=>{c.style.transition='transform .22s ease';c.style.transform=''});
 }
 function place(){
   const {el,box,x,y}=dg;
   const hit=[...box.children].find(c=>{
     if(c===el||!c.dataset.sid)return false;
-    const r=(c.querySelector(':scope>.row')||c).getBoundingClientRect();
-    return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
+    const r=lbox(c);return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
   });
-  if(hit)box.insertBefore(el,el.compareDocumentPosition(hit)&Node.DOCUMENT_POSITION_FOLLOWING?hit.nextSibling:hit);
+  if(hit)slide(box,el,()=>box.insertBefore(el,el.compareDocumentPosition(hit)&Node.DOCUMENT_POSITION_FOLLOWING?hit.nextSibling:hit));
+}
+/* the dragged item follows the pointer, wherever its slot in the list currently is */
+function follow(){
+  const {el,gx,gy}=dg;
+  el.style.translate='none';
+  const r=el.getBoundingClientRect();
+  el.style.translate=(dg.x-gx-(r.left+r.width/2))+'px '+(dg.y-gy-(r.top+r.height/2))+'px';
 }
 function tick(){
   if(!dg)return;
   if(dg.y<70)window.scrollBy(0,-14);else if(dg.y>innerHeight-70)window.scrollBy(0,14);
-  place();requestAnimationFrame(tick);
+  place();follow();requestAnimationFrame(tick);
 }
 document.addEventListener('pointerdown',e=>{
   const g=e.target.closest&&e.target.closest('.grip');if(!g||e.button>0)return;
   const el=g.closest('[data-sid]');if(!el)return;
   e.preventDefault();g.setPointerCapture(e.pointerId);
-  dg={el,box:el.parentElement,id:e.pointerId,x:e.clientX,y:e.clientY};
+  const r=el.getBoundingClientRect();
+  dg={el,box:el.parentElement,id:e.pointerId,x:e.clientX,y:e.clientY,gx:e.clientX-(r.left+r.width/2),gy:e.clientY-(r.top+r.height/2)};
+  el.style.transition='';el.style.transform='';
   el.classList.add('drag');document.body.classList.add('dg');tick();
 });
 document.addEventListener('pointermove',e=>{if(dg&&e.pointerId===dg.id){dg.x=e.clientX;dg.y=e.clientY}});
 ['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,e=>{
   if(!dg||e.pointerId!==dg.id)return;
-  const {el,box}=dg;dg=null;el.classList.remove('drag');document.body.classList.remove('dg');
-  applyOrder(box.dataset.list,sids(box));
+  const {el,box}=dg,list=box.dataset.list,ids=sids(box);dg=null;
+  el.classList.remove('drag');document.body.classList.remove('dg');
+  /* glide into the final slot, then redraw */
+  el.style.transition='translate .18s ease,scale .18s ease,box-shadow .18s ease';el.style.translate='0 0';
+  applyOrder(list,ids,true);
+  setTimeout(()=>{if(!dg)render()},200);
 }));
-window.addEventListener('hashchange',()=>{ui.add=null;ui.edit=null;render();window.scrollTo(0,0)});
+/* right click opens the move menu; on touch screens a half-second hold does */
+let lp=null,lp0=null,lpFired=false;
+const cardOf=e=>e.target.closest&&e.target.closest('.card[data-id]');
+function openCtx(id,x,y){ui.ctx={id,x,y};ctx()}
+document.addEventListener('contextmenu',e=>{
+  const c=cardOf(e);if(!c)return;
+  e.preventDefault();lpFired=true;
+  const r=c.getBoundingClientRect();
+  openCtx(c.dataset.id,e.clientX||r.left+24,e.clientY||r.top+24);
+});
+document.addEventListener('pointerdown',e=>{
+  lpFired=false;clearTimeout(lp);lp0=null;
+  if(e.pointerType==='mouse'||(e.target.closest&&e.target.closest('.grip')))return;
+  const c=cardOf(e);if(!c)return;
+  const x=e.clientX,y=e.clientY;lp0={x,y};
+  lp=setTimeout(()=>{lpFired=true;if(navigator.vibrate)navigator.vibrate(15);openCtx(c.dataset.id,x,y)},550);
+});
+document.addEventListener('pointermove',e=>{if(lp0&&Math.hypot(e.clientX-lp0.x,e.clientY-lp0.y)>10){clearTimeout(lp);lp0=null}});
+['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,()=>{clearTimeout(lp);lp0=null}));
+window.addEventListener('scroll',()=>{if(ui.ctx){ui.ctx=null;ctx()}},{passive:true});
+setInterval(()=>{if(settleComp())render()},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&settleComp())render()});
+window.addEventListener('hashchange',()=>{ui.add=null;ui.edit=null;ui.menu=false;ui.ctx=null;ctx();render();window.scrollTo(0,0)});
 render();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
